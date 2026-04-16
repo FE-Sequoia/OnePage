@@ -14,13 +14,13 @@ const { projects } = Astro.props;
       <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
         项目案例
       </h2>
-      <div class="w-20 h-1.5 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+      <div class="w-20 h-1.5 mx-auto rounded-full" style="background: linear-gradient(to right, var(--primary, #3b82f6), var(--accent, #06b6d4));"></div>
     </div>
 
     {projects && projects.length > 0 && (
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project, idx) => (
-          <article class="bg-white/80 dark:bg-gray-800/50 rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:shadow-primary/20 border border-gray-100/50 dark:border-gray-700/50 p-5 group">
+          <article class="bg-white/80 dark:bg-gray-800/50 rounded-xl overflow-hidden shadow-md hover:shadow-xl border border-gray-100/50 dark:border-gray-700/50 p-5 group">
             {project.image && (
               <div class="relative h-48 -mx-5 -mt-5 mb-4 overflow-hidden rounded-t-xl cursor-pointer" onclick={`openModal('modal-${idx}')`}>
                 <img
@@ -48,7 +48,7 @@ const { projects } = Astro.props;
 
             <div class="flex flex-wrap gap-1.5 mb-3">
               {project.tech.slice(0, 4).map((t) => (
-                <span class="px-2.5 py-1 bg-primary/10 text-gray-600 dark:text-gray-400 rounded text-xs">
+                <span class="px-2.5 py-1 rounded text-xs" style="background: color-mix(in srgb, var(--primary, #3b82f6) 10%, transparent); color: var(--primary, #3b82f6);">
                   {t}
                 </span>
               ))}
@@ -60,7 +60,8 @@ const { projects } = Astro.props;
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-sm font-medium text-primary"
+                  class="text-sm font-medium"
+                  style="color: var(--primary, #3b82f6);"
                 >
                   代码
                 </a>
@@ -70,6 +71,8 @@ const { projects } = Astro.props;
                   href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
+                  class="text-sm font-medium"
+                  style="color: var(--accent, #06b6d4);"
                 >
                   演示
                 </a>
@@ -169,7 +172,11 @@ const { projects } = Astro.props;
     canvas.width = width;
     canvas.height = height;
 
+    const style = getComputedStyle(document.documentElement);
+    const primary = style.getPropertyValue('--primary').trim() || '#3b82f6';
+    const accent = style.getPropertyValue('--accent').trim() || '#06b6d4';
     const isDark = document.documentElement.classList.contains('dark');
+    
     const particleCount = 80;
     const connectDistance = 180;
     const particles = [];
@@ -182,8 +189,8 @@ const { projects } = Astro.props;
         this.vy = (Math.random() - 0.5) * 0.8;
         this.radius = Math.random() * 2 + 1;
         const colors = isDark 
-          ? ['#60a5fa', '#22d3ee', '#10b981', '#8b5cf6'] 
-          : ['#3b82f6', '#06b6d4', '#10b981', '#8b5cf6'];
+          ? [primary, accent, '#10b981', '#8b5cf6'] 
+          : [primary, accent, '#10b981', '#8b5cf6'];
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
@@ -247,23 +254,6 @@ const { projects } = Astro.props;
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
-    });
-
-    const observer = new MutationObserver(() => {
-      const newIsDark = document.documentElement.classList.contains('dark');
-      if (newIsDark !== isDark) {
-        particles.forEach(p => {
-          const colors = newIsDark 
-            ? ['#60a5fa', '#22d3ee', '#10b981', '#8b5cf6'] 
-            : ['#3b82f6', '#06b6d4', '#10b981', '#8b5cf6'];
-          p.color = colors[Math.floor(Math.random() * colors.length)];
-        });
-      }
-    });
-    
-    observer.observe(document.documentElement, { 
-      attributes: true, 
-      attributeFilter: ['class'] 
     });
   })();
 </script>

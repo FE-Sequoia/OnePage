@@ -148,4 +148,4 @@ projects:
 
 theme:
   mode: "auto"
-  primaryColor: "#3b82f6"
+  theme: "green" # blue / orange / violet / green / rose

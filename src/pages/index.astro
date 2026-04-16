@@ -11,10 +11,10 @@ import Footer from '../components/Footer.astro';
 import { loadConfig } from '../utils/config';
 
 const config = loadConfig();
-const { site, profile, skills, education, experience, projects } = config;
+const { site, profile, skills, education, experience, projects, theme } = config;
 ---
 
-<Layout title={site.title} description={site.description} favicon={site.favicon}>
+<Layout title={site.title} description={site.description} favicon={site.favicon} theme={theme}>
   <Navbar name={profile.name} />
   
   <main>

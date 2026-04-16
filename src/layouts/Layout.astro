@@ -5,9 +5,23 @@ interface Props {
   title: string;
   description?: string;
   favicon?: string;
+  theme?: {
+    name: string;
+    colors: {
+      primary: string;
+      primaryLight: string;
+      primaryDark: string;
+      accent: string;
+      accentLight: string;
+      gradient: string;
+      heroGradient: string;
+      heroGradientDark: string;
+    };
+  };
 }
 
-const { title, description, favicon } = Astro.props;
+const { title, description, favicon, theme } = Astro.props;
+const colors = theme?.colors;
 ---
 
 <!DOCTYPE html>
@@ -22,6 +36,27 @@ const { title, description, favicon } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style define:vars={{ 
+      primary: colors?.primary || '#3b82f6',
+      primaryLight: colors?.primaryLight || '#60a5fa',
+      primaryDark: colors?.primaryDark || '#2563eb',
+      accent: colors?.accent || '#06b6d4',
+      accentLight: colors?.accentLight || '#22d3ee',
+      gradient: colors?.gradient || 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
+      heroGradient: colors?.heroGradient || 'linear-gradient(135deg, #eff6ff 0%, #e0f2fe 50%, #f0f9ff 100%)',
+      heroGradientDark: colors?.heroGradientDark || 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #172554 100%)'
+    }}>
+      :root {
+        --primary: var(--primary);
+        --primary-light: var(--primaryLight);
+        --primary-dark: var(--primaryDark);
+        --accent: var(--accent);
+        --accent-light: var(--accentLight);
+        --gradient: var(--gradient);
+        --hero-gradient: var(--heroGradient);
+        --hero-gradient-dark: var(--heroGradientDark);
+      }
+    </style>
   </head>
   <body class="bg-white dark:bg-dark text-gray-900 dark:text-white font-sans">
     <slot />
