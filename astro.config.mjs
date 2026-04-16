@@ -3,7 +3,7 @@ import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   site: "https://example.com",
-  base: "/",
+  base: "/OnePage",
   integrations: [tailwind()],
   output: "static",
   build: {
