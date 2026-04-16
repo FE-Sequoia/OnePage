@@ -1,0 +1,42 @@
+---
+interface Props {
+  education?: { school: string; degree: string; period: string; description?: string }[];
+}
+
+const { education } = Astro.props;
+---
+
+<section id="education" class="py-16 px-4 relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-bl from-violet-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 -z-10"></div>
+  <div class="absolute top-0 left-1/4 w-64 h-64 bg-violet-200/30 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-200/30 rounded-full blur-3xl"></div>
+
+  <div class="max-w-4xl mx-auto relative">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        教育经历
+      </h2>
+      <div class="w-20 h-1.5 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+    </div>
+
+    {education && education.length > 0 && (
+      <div class="space-y-3">
+        {education.map((edu) => (
+          <div class="bg-white/80 dark:bg-gray-800/50 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100/50 dark:border-gray-700/50 backdrop-blur-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                {edu.school}
+              </h3>
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                {edu.period}
+              </span>
+            </div>
+            <p class="text-primary font-medium text-sm mt-1">
+              {edu.degree}
+            </p>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

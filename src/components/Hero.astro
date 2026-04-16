@@ -1,0 +1,149 @@
+---
+interface Props {
+  name: string;
+  title: string;
+  avatar?: string;
+  bio?: string;
+  email?: string;
+  socials?: { platform: string; url: string; icon: string }[];
+}
+
+const { name, title, avatar, bio, email, socials } = Astro.props;
+---
+
+<section id="about" class="min-h-screen flex flex-col justify-center items-center py-20 px-4 relative overflow-hidden">
+  <canvas id="bubbles" class="absolute inset-0 -z-10"></canvas>
+  
+  <div class="max-w-3xl w-full text-center animate-fade-in">
+    {avatar && (
+      <div class="mb-8 relative">
+        <div class="absolute inset-0 bg-gradient-primary rounded-full blur-xl opacity-40 animate-float"></div>
+        <img
+          src={avatar}
+          alt={name}
+          class="relative w-36 h-36 mx-auto rounded-full object-cover shadow-xl ring-4 ring-white dark:ring-gray-800"
+        />
+      </div>
+    )}
+
+    <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+      <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        {name}
+      </span>
+    </h1>
+
+    <p class="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 font-medium mb-6">
+      {title}
+    </p>
+
+    {bio && (
+      <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto mb-8">
+        {bio}
+      </p>
+    )}
+
+    <div class="flex flex-wrap justify-center gap-4">
+      {socials?.map((social) => (
+        <a
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-6 py-3 bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 rounded-full shadow-md hover:shadow-lg hover:shadow-primary/20 hover:scale-105 hover:bg-primary hover:text-white transition-all duration-200 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50"
+        >
+          {social.platform}
+        </a>
+      ))}
+      {email && (
+        <a
+          href={`mailto:${email}`}
+          class="px-8 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full shadow-lg hover:shadow-xl hover:shadow-primary/30 hover:scale-105 transition-all duration-200 font-medium"
+        >
+          联系我
+        </a>
+      )}
+    </div>
+  </div>
+
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+    <svg class="w-8 h-8 text-primary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </div>
+</section>
+
+<script>
+  const canvas = document.getElementById('bubbles') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d');
+  
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+
+  interface Bubble {
+    x: number;
+    y: number;
+    radius: number;
+    vx: number;
+    vy: number;
+    color: string;
+    opacity: number;
+  }
+
+  const colors = ['#3b82f6', '#06b6d4', '#10b981', '#8b5cf6', '#f97316'];
+  
+  const bubbles: Bubble[] = [];
+  const bubbleCount = 15;
+
+  for (let i = 0; i < bubbleCount; i++) {
+    bubbles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 80 + 20,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      opacity: Math.random() * 0.15 + 0.05
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    
+    bubbles.forEach(bubble => {
+      bubble.x += bubble.vx;
+      bubble.y += bubble.vy;
+      
+      if (bubble.x < -bubble.radius) bubble.x = width + bubble.radius;
+      if (bubble.x > width + bubble.radius) bubble.x = -bubble.radius;
+      if (bubble.y < -bubble.radius) bubble.y = height + bubble.radius;
+      if (bubble.y > height + bubble.radius) bubble.y = -bubble.radius;
+      
+      ctx.beginPath();
+      ctx.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
+      ctx.fillStyle = bubble.color + Math.floor(bubble.opacity * 255).toString(16).padStart(2, '0');
+      ctx.fill();
+    });
+    
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  window.addEventListener('resize', () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  });
+</script>
+
+<style>
+  #bubbles {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
+  }
+  
+  :global(.dark) #bubbles {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
+  }
+</style>

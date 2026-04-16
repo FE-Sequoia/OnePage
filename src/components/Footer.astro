@@ -1,0 +1,19 @@
+---
+interface Props {
+  name?: string;
+}
+
+const { name } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="py-8 px-4 bg-white dark:bg-darker border-t border-gray-100 dark:border-gray-800">
+  <div class="max-w-5xl mx-auto text-center">
+    <p class="text-gray-500 dark:text-gray-400">
+      &copy; {year} <span class="font-medium text-gray-700 dark:text-gray-300">{name || 'OnePage'}</span>. All Rights Reserved.
+    </p>
+    <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">
+      Powered by <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primaryDark transition-colors">Astro</a> & <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="text-accent hover:text-accentLight transition-colors">Tailwind CSS</a>
+    </p>
+  </div>
+</footer>

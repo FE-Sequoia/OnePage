@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Skills from '../components/Skills.astro';
+import Education from '../components/Education.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { loadConfig } from '../utils/config';
+
+const config = loadConfig();
+const { site, profile, skills, education, experience, projects } = config;
+---
+
+<Layout title={site.title} description={site.description} favicon={site.favicon}>
+  <Navbar name={profile.name} />
+  
+  <main>
+    <Hero
+      name={profile.name}
+      title={profile.title}
+      avatar={profile.avatar}
+      bio={profile.bio}
+      email={profile.email}
+      socials={profile.socials}
+    />
+
+    <Skills skills={skills} />
+
+    <Projects projects={projects} />
+
+    <Experience experience={experience} />
+
+    <Education education={education} />
+
+    <Contact
+      email={profile.email}
+      socials={profile.socials}
+    />
+  </main>
+
+  <Footer name={profile.name} />
+</Layout>

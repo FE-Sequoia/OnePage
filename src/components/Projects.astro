@@ -1,0 +1,269 @@
+---
+interface Props {
+  projects?: { name: string; description: string; tech: string[]; image?: string; link?: string; demo?: string; qrcode?: string; screenshots?: string[] }[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section id="projects" class="py-16 px-4 relative overflow-hidden">
+  <canvas id="projects-canvas" class="absolute inset-0 -z-10"></canvas>
+
+  <div class="max-w-6xl mx-auto relative">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        项目案例
+      </h2>
+      <div class="w-20 h-1.5 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+    </div>
+
+    {projects && projects.length > 0 && (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {projects.map((project, idx) => (
+          <article class="bg-white/80 dark:bg-gray-800/50 rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:shadow-primary/20 border border-gray-100/50 dark:border-gray-700/50 p-5 group">
+            {project.image && (
+              <div class="relative h-48 -mx-5 -mt-5 mb-4 overflow-hidden rounded-t-xl cursor-pointer" onclick={`openModal('modal-${idx}')`}>
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  class="w-full h-full object-cover"
+                />
+                {(project.qrcode || project.screenshots) && (
+                  <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100" style="transition: opacity 0.01s;">
+                    <span class="px-3 py-1.5 bg-white/90 text-gray-800 rounded-lg text-sm font-medium">
+                      点击查看
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">
+              {project.name}
+            </h3>
+            
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-3 leading-relaxed line-clamp-2">
+              {project.description}
+            </p>
+
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              {project.tech.slice(0, 4).map((t) => (
+                <span class="px-2.5 py-1 bg-primary/10 text-gray-600 dark:text-gray-400 rounded text-xs">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div class="flex gap-4 pt-3 border-t border-gray-100/50 dark:border-gray-700/50 flex-wrap">
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-medium text-primary"
+                >
+                  代码
+                </a>
+              )}
+              {project.demo && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  演示
+                </a>
+              )}
+              {(project.qrcode || project.screenshots) && (
+                <button
+                  onclick={`openModal('modal-${idx}')`}
+                  class="text-sm font-medium text-gray-600 dark:text-gray-400"
+                >
+                  查看
+                </button>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+
+  {projects?.map((project, idx) => (
+    (project.qrcode || project.screenshots) && (
+      <div id={`modal-${idx}`} class="fixed inset-0 z-50 hidden" onclick={`closeModal('modal-${idx}')`}>
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-4" onclick="event.stopPropagation()">
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white">{project.name}</h3>
+              <button onclick={`closeModal('modal-${idx}')`} class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            
+            {project.qrcode && (
+              <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">扫码体验</p>
+                <img src={project.qrcode} alt="二维码" class="w-48 h-48 mx-auto object-contain rounded-lg" />
+              </div>
+            )}
+            
+            {project.screenshots && project.screenshots.length > 0 && (
+              <div>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">截图预览</p>
+                <div class="flex gap-2 overflow-x-auto pb-2">
+                  {project.screenshots.map((screenshot) => (
+                    <img src={screenshot} alt="截图" class="w-40 h-auto object-contain rounded-lg flex-shrink-0" />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  ))}
+</section>
+
+<script is:inline>
+  function openModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const modals = document.querySelectorAll('[id^="modal-"]');
+      modals.forEach(modal => {
+        if (!modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  });
+</script>
+
+<script is:inline>
+  (function() {
+    const canvas = document.getElementById('projects-canvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    const isDark = document.documentElement.classList.contains('dark');
+    const particleCount = 80;
+    const connectDistance = 180;
+    const particles = [];
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.radius = Math.random() * 2 + 1;
+        const colors = isDark 
+          ? ['#60a5fa', '#22d3ee', '#10b981', '#8b5cf6'] 
+          : ['#3b82f6', '#06b6d4', '#10b981', '#8b5cf6'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function drawLines() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < connectDistance) {
+            const opacity = (1 - distance / connectDistance) * 0.3;
+            ctx.beginPath();
+            ctx.strokeStyle = isDark 
+              ? `rgba(96, 165, 250, ${opacity})` 
+              : `rgba(59, 130, 246, ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      
+      drawLines();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+
+    const observer = new MutationObserver(() => {
+      const newIsDark = document.documentElement.classList.contains('dark');
+      if (newIsDark !== isDark) {
+        particles.forEach(p => {
+          const colors = newIsDark 
+            ? ['#60a5fa', '#22d3ee', '#10b981', '#8b5cf6'] 
+            : ['#3b82f6', '#06b6d4', '#10b981', '#8b5cf6'];
+          p.color = colors[Math.floor(Math.random() * colors.length)];
+        });
+      }
+    });
+    
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class'] 
+    });
+  })();
+</script>
