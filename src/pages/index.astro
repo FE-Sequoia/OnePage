@@ -3,6 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import TeamLayout from '../layouts/TeamLayout.astro';
 import TeamNavbar from '../components/TeamNavbar.astro';
 import TeamFooter from '../components/TeamFooter.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Skills from '../components/Skills.astro';
+import Projects from '../components/Projects.astro';
+import Experience from '../components/Experience.astro';
+import Education from '../components/Education.astro';
+import Contact from '../components/Contact.astro';
 import { loadConfig } from '../utils/config';
 
 const config = loadConfig();
@@ -102,7 +110,7 @@ const { mode, site, profile, company, skills, education, experience, projects, p
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {services.slice(0, 6).map((service, index) => (
-                <a href="/OnePage/services" class="group glass rounded-2xl p-6 hover-lift hover-glow transition-all duration-300" style="animation-delay: -{index}00ms;">
+                <a href="/OnePage/services" class="group glass rounded-2xl p-6 hover-lift hover-glow transition-all duration-300" style={`animation-delay: -${index}00ms;`}>
                   {service.icon && (
                     <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4 gradient-text" style="background: var(--gradient);">
                       <span class="text-2xl">{service.icon}</span>

@@ -40,6 +40,14 @@ export function loadConfig() {
   
   const mode = mainConfig.mode || "personal";
   
+  // Auto-load config files for personal mode if only mode is set in config.yaml
+  if (mode === 'personal' && !mainConfig.profile) {
+    const personalConfig = loadYamlFile('./config/personal.yaml');
+    if (personalConfig) {
+      mainConfig = { ...personalConfig, ...mainConfig, mode: 'personal' };
+    }
+  }
+  
   // Load additional config files based on mode
   if (mode === "team") {
     const basePath = "./config";
