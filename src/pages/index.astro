@@ -11,35 +11,52 @@ import Footer from '../components/Footer.astro';
 import { loadConfig } from '../utils/config';
 
 const config = loadConfig();
-const { site, profile, skills, education, experience, projects, theme } = config;
+const { mode, site, profile, company, skills, education, experience, projects, portfolio, members, services, news, theme } = config;
 ---
 
-<Layout title={site.title} description={site.description} favicon={site.favicon} theme={theme}>
-  <Navbar name={profile.name} />
+<Layout title={site?.title || 'OnePage'} description={site?.description} favicon={site?.favicon} theme={theme}>
+  <Navbar name={mode === 'team' ? company?.name || 'Team' : profile?.name || 'OnePage'} />
   
   <main>
-    <Hero
-      name={profile.name}
-      title={profile.title}
-      avatar={profile.avatar}
-      bio={profile.bio}
-      email={profile.email}
-      socials={profile.socials}
-    />
+    {mode === 'personal' ? (
+      <>
+        <Hero
+          name={profile?.name || ''}
+          title={profile?.title || ''}
+          avatar={profile?.avatar}
+          bio={profile?.bio}
+          email={profile?.email}
+          socials={profile?.socials}
+        />
 
-    <Skills skills={skills} />
+        <Skills skills={skills} />
 
-    <Projects projects={projects} />
+        <Projects projects={projects} />
 
-    <Experience experience={experience} />
+        <Experience experience={experience} />
 
-    <Education education={education} />
+        <Education education={education} />
 
-    <Contact
-      email={profile.email}
-      socials={profile.socials}
-    />
+        <Contact
+          email={profile?.email}
+          socials={profile?.socials}
+        />
+      </>
+    ) : (
+      <div class="min-h-screen flex items-center justify-center">
+        <div class="text-center">
+          <h1 class="text-4xl font-bold mb-4" style="color: var(--primary);">{company?.name || 'Team Mode'}</h1>
+          <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">{company?.description || 'Team website mode'}</p>
+          <div class="text-sm text-gray-500">
+            <p>Members: {members?.length || 0}</p>
+            <p>Portfolio: {portfolio?.length || 0}</p>
+            <p>Services: {services?.length || 0}</p>
+            <p>News: {news?.length || 0}</p>
+          </div>
+        </div>
+      </div>
+    )}
   </main>
 
-  <Footer name={profile.name} />
+  <Footer name={mode === 'team' ? company?.name || 'Team' : profile?.name || 'OnePage'} />
 </Layout>

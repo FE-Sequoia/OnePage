@@ -1,0 +1,36 @@
+members:
+  - name: "张伟"
+    role: "创始人 / 技术总监"
+    avatar: "https://placehold.co/150x150/3b82f6/ffffff?text=张伟"
+    bio: "10年+互联网从业经验，擅长架构设计与团队管理。"
+    socials:
+      - platform: "GitHub"
+        url: "https://github.com/zhangwei"
+      - platform: "LinkedIn"
+        url: "https://linkedin.com/in/zhangwei"
+
+  - name: "李娜"
+    role: "设计总监"
+    avatar: "https://placehold.co/150x150/8b5cf6/ffffff?text=李娜"
+    bio: "资深UI/UX设计师，注重用户体验与视觉设计。"
+    socials:
+      - platform: "Dribbble"
+        url: "https://dribbble.com/lina"
+      - platform: "Behance"
+        url: "https://behance.net/lina"
+
+  - name: "王强"
+    role: "高级前端工程师"
+    avatar: "https://placehold.co/150x150/10b981/ffffff?text=王强"
+    bio: "精通React、Vue等前端框架，专注性能优化。"
+    socials:
+      - platform: "GitHub"
+        url: "https://github.com/wangqiang"
+
+  - name: "赵敏"
+    role: "后端工程师"
+    avatar: "https://placehold.co/150x150/f97316/ffffff?text=赵敏"
+    bio: "熟悉Node.js、Python等后端技术，熟悉微服务架构。"
+    socials:
+      - platform: "GitHub"
+        url: "https://github.com/zhaomin"

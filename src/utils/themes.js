@@ -1,4 +1,5 @@
 export const themes = {
+  // 基础主题（个人版）
   blue: {
     primary: "#3b82f6",
     primaryLight: "#60a5fa",
@@ -6,10 +7,8 @@ export const themes = {
     accent: "#06b6d4",
     accentLight: "#22d3ee",
     gradient: "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)",
-    heroGradient:
-      "linear-gradient(135deg, #eff6ff 0%, #e0f2fe 50%, #f0f9ff 100%)",
-    heroGradientDark:
-      "linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #172554 100%)",
+    heroGradient: "linear-gradient(135deg, #eff6ff 0%, #e0f2fe 50%, #f0f9ff 100%)",
+    heroGradientDark: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #172554 100%)",
   },
   orange: {
     primary: "#f97316",
@@ -18,10 +17,8 @@ export const themes = {
     accent: "#eab308",
     accentLight: "#facc15",
     gradient: "linear-gradient(135deg, #f97316 0%, #eab308 100%)",
-    heroGradient:
-      "linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fef3c7 100%)",
-    heroGradientDark:
-      "linear-gradient(135deg, #1c1917 0%, #451a03 50%, #292524 100%)",
+    heroGradient: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fef3c7 100%)",
+    heroGradientDark: "linear-gradient(135deg, #1c1917 0%, #451a03 50%, #292524 100%)",
   },
   violet: {
     primary: "#8b5cf6",
@@ -30,10 +27,8 @@ export const themes = {
     accent: "#ec4899",
     accentLight: "#f472b6",
     gradient: "linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)",
-    heroGradient:
-      "linear-gradient(135deg, #f5f3ff 0%, #ede9fe 50%, #fae8ff 100%)",
-    heroGradientDark:
-      "linear-gradient(135deg, #1c1917 0%, #3b0764 50%, #2e1065 100%)",
+    heroGradient: "linear-gradient(135deg, #f5f3ff 0%, #ede9fe 50%, #fae8ff 100%)",
+    heroGradientDark: "linear-gradient(135deg, #1c1917 0%, #3b0764 50%, #2e1065 100%)",
   },
   green: {
     primary: "#10b981",
@@ -42,10 +37,8 @@ export const themes = {
     accent: "#14b8a6",
     accentLight: "#2dd4bf",
     gradient: "linear-gradient(135deg, #10b981 0%, #14b8a6 100%)",
-    heroGradient:
-      "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #ccfbf1 100%)",
-    heroGradientDark:
-      "linear-gradient(135deg, #052e16 0%, #064e3b 50%, #022c22 100%)",
+    heroGradient: "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #ccfbf1 100%)",
+    heroGradientDark: "linear-gradient(135deg, #052e16 0%, #064e3b 50%, #022c22 100%)",
   },
   rose: {
     primary: "#f43f5e",
@@ -54,10 +47,40 @@ export const themes = {
     accent: "#fb7185",
     accentLight: "#fda4af",
     gradient: "linear-gradient(135deg, #f43f5e 0%, #fb7185 100%)",
-    heroGradient:
-      "linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fce7f3 100%)",
-    heroGradientDark:
-      "linear-gradient(135deg, #1c1917 0%, #4c0519 50%, #500724 100%)",
+    heroGradient: "linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fce7f3 100%)",
+    heroGradientDark: "linear-gradient(135deg, #1c1917 0%, #4c0519 50%, #500724 100%)",
+  },
+  
+  // 团队主题
+  team_corporate: {
+    primary: "#1e40af",
+    primaryLight: "#3b82f6",
+    primaryDark: "#1e3a8a",
+    accent: "#0891b2",
+    accentLight: "#06b6d4",
+    gradient: "linear-gradient(135deg, #1e40af 0%, #0891b2 100%)",
+    heroGradient: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #e0f2fe 100%)",
+    heroGradientDark: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #172554 100%)",
+  },
+  team_creative: {
+    primary: "#f97316",
+    primaryLight: "#fb923c",
+    primaryDark: "#ea580c",
+    accent: "#eab308",
+    accentLight: "#facc15",
+    gradient: "linear-gradient(135deg, #f97316 0%, #eab308 100%)",
+    heroGradient: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fef3c7 100%)",
+    heroGradientDark: "linear-gradient(135deg, #1c1917 0%, #451a03 50%, #292524 100%)",
+  },
+  team_minimal: {
+    primary: "#374151",
+    primaryLight: "#6b7280",
+    primaryDark: "#1f2937",
+    accent: "#9ca3af",
+    accentLight: "#d1d5db",
+    gradient: "linear-gradient(135deg, #374151 0%, #6b7280 100%)",
+    heroGradient: "linear-gradient(135deg, #f9fafb 0%, #f3f4f6 50%, #e5e7eb 100%)",
+    heroGradientDark: "linear-gradient(135deg, #111827 0%, #1f2937 50%, #111827 100%)",
   },
 };
 
