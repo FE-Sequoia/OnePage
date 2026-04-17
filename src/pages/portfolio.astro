@@ -1,0 +1,116 @@
+---
+import TeamLayout from '../layouts/TeamLayout.astro';
+import TeamNavbar from '../components/TeamNavbar.astro';
+import TeamFooter from '../components/TeamFooter.astro';
+import { loadConfig } from '../utils/config';
+
+const config = loadConfig();
+const { mode, company, portfolio, theme } = config;
+---
+
+<TeamLayout title={company?.name ? `案例展示 - ${company.name}` : '案例展示'} description="我们的成功案例" theme={theme}>
+  <TeamNavbar siteName={company?.name || 'Team'} />
+  
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="py-20 px-4 relative overflow-hidden">
+      <div class="absolute inset-0" style="background: linear-gradient(135deg, var(--hero-gradient));"></div>
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          案例展示
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          我们的成功案例，涵盖多个行业和领域
+        </p>
+      </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="py-16 px-4">
+      <div class="max-w-6xl mx-auto">
+        {portfolio && portfolio.length > 0 ? (
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {portfolio.map((project) => (
+              <article class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg">
+                <!-- Images -->
+                {project.images && project.images.length > 0 && (
+                  <div class="relative h-64 overflow-hidden">
+                    <img 
+                      src={project.images[0]} 
+                      alt={project.name} 
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                
+                <div class="p-6">
+                  <div class="flex items-center gap-4 mb-4">
+                    {project.client_logo && (
+                      <img src={project.client_logo} alt="Client" class="h-8" />
+                    )}
+                    <span class="text-sm text-gray-500">{project.year}</span>
+                  </div>
+                  
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    {project.name}
+                  </h3>
+                  
+                  <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    {project.description}
+                  </p>
+                  
+                  <!-- Tags -->
+                  {project.tags && project.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-2 mb-4">
+                      {project.tags.map((tag) => (
+                        <span 
+                          class="px-3 py-1 rounded-full text-xs font-medium"
+                          style="background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--primary);"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <!-- Results -->
+                  {project.results && project.results.length > 0 && (
+                    <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                      <p class="text-sm font-medium mb-2" style="color: var(--primary);">项目成果</p>
+                      <ul class="space-y-1">
+                        {project.results.map((result) => (
+                          <li class="text-sm text-gray-600 dark:text-gray-400">• {result}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  <!-- Links -->
+                  {project.link && (
+                    <div class="mt-4">
+                      <a 
+                        href={project.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 text-sm font-medium"
+                        style="color: var(--primary);"
+                      >
+                        查看详情 →
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-16">
+            <p class="text-gray-500">暂无案例展示</p>
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+
+  <TeamFooter company={company} socials={config.socials} />
+</TeamLayout>

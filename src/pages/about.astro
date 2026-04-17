@@ -1,0 +1,104 @@
+---
+import TeamLayout from '../layouts/TeamLayout.astro';
+import TeamNavbar from '../components/TeamNavbar.astro';
+import TeamFooter from '../components/TeamFooter.astro';
+import { loadConfig } from '../utils/config';
+
+const config = loadConfig();
+const { mode, site, company, members, theme } = config;
+---
+
+<TeamLayout title={company?.name ? `关于我们 - ${company.name}` : '关于我们'} description={company?.description} theme={theme}>
+  <TeamNavbar siteName={company?.name || 'Team'} />
+  
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="py-20 px-4 relative overflow-hidden">
+      <div class="absolute inset-0" style="background: linear-gradient(135deg, var(--hero-gradient));"></div>
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          关于我们
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          {company?.description || '致力于为客户提供优质的互联网解决方案'}
+        </p>
+      </div>
+    </section>
+
+    <!-- Company Info -->
+    <section class="py-16 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--primary);">公司介绍</h2>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+              {company?.description || '我们是一家专注于互联网产品设计与开发的工作室。'}
+            </p>
+            {company?.founded && (
+              <p class="text-gray-600 dark:text-gray-300">
+                <strong>成立时间：</strong>{company.founded}
+              </p>
+            )}
+          </div>
+          <div class="flex justify-center">
+            {site?.logo && (
+              <img src={site.logo} alt="Logo" class="max-w-xs" />
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values -->
+    {company?.values && company.values.length > 0 && (
+      <section class="py-16 px-4 bg-gray-50 dark:bg-darker">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-2xl font-bold text-center mb-12" style="color: var(--primary);">
+            核心价值观
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {company.values.map((value, index) => (
+              <div class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-md">
+                <div class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: var(--gradient);">
+                  <span class="text-white font-bold text-lg">{index + 1}</span>
+                </div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">{value}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Team Members -->
+    {members && members.length > 0 && (
+      <section class="py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-2xl font-bold text-center mb-12" style="color: var(--primary);">
+            团队成员
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {members.map((member) => (
+              <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md text-center">
+                {member.avatar && (
+                  <img 
+                    src={member.avatar} 
+                    alt={member.name} 
+                    class="w-24 h-24 mx-auto rounded-full object-cover mb-4"
+                  />
+                )}
+                <h3 class="font-semibold text-gray-900 dark:text-white">{member.name}</h3>
+                <p class="text-sm mb-2" style="color: var(--primary);">{member.role}</p>
+                {member.bio && (
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{member.bio}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <TeamFooter company={company} socials={config.socials} />
+</TeamLayout>

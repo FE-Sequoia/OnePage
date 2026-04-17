@@ -1,0 +1,75 @@
+---
+import TeamLayout from '../layouts/TeamLayout.astro';
+import TeamNavbar from '../components/TeamNavbar.astro';
+import TeamFooter from '../components/TeamFooter.astro';
+import { loadConfig } from '../utils/config';
+
+const config = loadConfig();
+const { mode, company, news, theme } = config;
+---
+
+<TeamLayout title={company?.name ? `新闻动态 - ${company.name}` : '新闻动态'} description="最新资讯" theme={theme}>
+  <TeamNavbar siteName={company?.name || 'Team'} />
+  
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="py-20 px-4 relative overflow-hidden">
+      <div class="absolute inset-0" style="background: linear-gradient(135deg, var(--hero-gradient));"></div>
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          新闻动态
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          了解我们的最新动态和行业资讯
+        </p>
+      </div>
+    </section>
+
+    <!-- News List -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        {news && news.length > 0 ? (
+          <div class="space-y-8">
+            {news.map((item) => (
+              <article class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-md">
+                <div class="flex items-center gap-4 mb-4">
+                  <span class="text-sm text-gray-500">{item.date}</span>
+                  {item.category && (
+                    <span 
+                      class="px-3 py-1 rounded-full text-xs font-medium"
+                      style="background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--primary);"
+                    >
+                      {item.category}
+                    </span>
+                  )}
+                </div>
+                
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  {item.title}
+                </h2>
+                
+                {item.summary && (
+                  <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    {item.summary}
+                  </p>
+                )}
+                
+                {item.content && (
+                  <div class="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                    {item.content}
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-16">
+            <p class="text-gray-500">暂无新闻动态</p>
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+
+  <TeamFooter company={company} socials={config.socials} />
+</TeamLayout>
