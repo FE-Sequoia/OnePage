@@ -14,8 +14,8 @@ const navItems = [
 ];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="navbar">
-  <div class="absolute inset-0 bg-white/60 dark:bg-dark/60 backdrop-blur-xl border-b border-white/10 dark:border-white/5 transition-all duration-500" id="navbar-bg"></div>
+<header class="fixed top-0 left-0 right-0 z-50" id="navbar">
+  <div class="absolute inset-0 bg-white/80 dark:bg-dark/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-800/50"></div>
   
   <nav class="relative max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
     <a href="#about" class="relative group">
@@ -24,7 +24,7 @@ const navItems = [
     </a>
 
     <ul class="hidden md:flex items-center gap-2">
-      {navItems.map((item, index) => (
+      {navItems.map((item) => (
         <li>
           <a
             href={item.href}
@@ -48,13 +48,13 @@ const navItems = [
     </button>
   </nav>
 
-  <div id="mobile-menu" class="hidden md:hidden glass-card border-t border-white/10 dark:border-white/5">
+  <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-dark border-t border-gray-200 dark:border-gray-800">
     <ul class="px-4 py-2 space-y-1">
       {navItems.map((item) => (
         <li>
           <a
             href={item.href}
-            class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-300"
+            class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
           >
             {item.label}
           </a>
@@ -65,29 +65,8 @@ const navItems = [
 </header>
 
 <script is:inline>
-  const navbar = document.getElementById('navbar');
-  const navbarBg = document.getElementById('navbar-bg');
   const menuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
-  
-  let lastScroll = 0;
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 50) {
-      navbarBg.classList.add('shadow-lg', 'shadow-primary/5');
-    } else {
-      navbarBg.classList.remove('shadow-lg', 'shadow-primary/5');
-    }
-    
-    if (currentScroll > 100) {
-      navbarBg.classList.add('-translate-y-full');
-    } else {
-      navbarBg.classList.remove('-translate-y-full');
-    }
-    
-    lastScroll = currentScroll;
-  });
 
   menuBtn?.addEventListener('click', () => {
     mobileMenu?.classList.toggle('hidden');

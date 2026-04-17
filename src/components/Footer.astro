@@ -7,28 +7,13 @@ const { name } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class="py-12 px-4 relative overflow-hidden" style="background: linear-gradient(180deg, var(--hero-gradient) 0%, var(--hero-gradient-dark) 100%);">
-  <!-- Background effects -->
-  <div class="absolute inset-0 -z-10">
-    <div class="absolute bottom-0 left-1/4 w-64 h-64 rounded-full blur-3xl opacity-30" style="background: var(--primary);"></div>
-    <div class="absolute bottom-0 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-25" style="background: var(--accent);"></div>
-  </div>
-
-  <div class="max-w-5xl mx-auto text-center relative z-10">
-    <!-- Name -->
-    <p class="text-lg font-bold gradient-text mb-2">{name || 'OnePage'}</p>
-    
-    <!-- Copyright -->
-    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
-      &copy; {year}. All Rights Reserved.
+<footer class="py-8 px-4 bg-white dark:bg-dark border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-5xl mx-auto text-center">
+    <p class="text-gray-500 dark:text-gray-400">
+      &copy; {year} <span class="font-medium text-gray-700 dark:text-gray-300">{name || 'OnePage'}</span>. All Rights Reserved.
     </p>
-    
-    <!-- Tech stack badge -->
-    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm">
-      <span class="text-gray-500 dark:text-gray-400">Powered by</span>
-      <span class="font-medium gradient-text">Astro</span>
-      <span class="text-gray-400">+</span>
-      <span class="font-medium gradient-text">Tailwind</span>
-    </div>
+    <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">
+      Powered by <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Astro</a> & <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Tailwind CSS</a>
+    </p>
   </div>
 </footer>

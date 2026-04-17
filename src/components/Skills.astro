@@ -6,63 +6,23 @@ interface Props {
 const { skills } = Astro.props;
 ---
 
-<section id="skills" class="py-24 px-4 relative overflow-hidden">
-  <!-- Background -->
-  <div class="absolute inset-0 -z-10">
-    <div class="absolute top-20 -right-32 w-96 h-96 rounded-full blur-3xl opacity-30" style="background: var(--primary);"></div>
-    <div class="absolute bottom-20 -left-32 w-80 h-80 rounded-full blur-3xl opacity-25" style="background: var(--accent);"></div>
-    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.1) 1px, transparent 0); background-size: 40px 40px;"></div>
-  </div>
-
-  <div class="max-w-5xl mx-auto relative">
-    <div class="text-center mb-16">
-      <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 glass-card" style="color: var(--primary);">Skills</span>
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 font-display">
-        技能<span class="gradient-text">专长</span>
+<section id="skills" class="py-24 px-4 bg-gray-50 dark:bg-gray-900/50">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
+        技能专长
       </h2>
-      <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">持续学习，不断精进</p>
+      <div class="w-16 h-1 mx-auto rounded-full" style="background: linear-gradient(to right, var(--primary), var(--accent));"></div>
     </div>
 
     {skills && skills.length > 0 && (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {skills.map((category, index) => (
-          <div class="group glass-card rounded-2xl p-6 hover-lift hover-glow transition-all duration-500">
-            <!-- Circular Progress -->
-            <div class="flex items-center gap-4 mb-4">
-              <div class="relative w-14 h-14">
-                <svg class="w-14 h-14 circle-progress" viewBox="0 0 36 36">
-                  <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-200 dark:text-gray-700" />
-                  <circle 
-                    cx="18" cy="18" r="16" 
-                    fill="none" 
-                    stroke="url(#gradient)" 
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-dasharray="100"
-                    stroke-dashoffset={100 - (index + 1) * 15}
-                    class="circle-progress"
-                  />
-                  <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="var(--primary)" />
-                      <stop offset="100%" stop-color="var(--accent)" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-sm font-bold" style="color: var(--primary);">{90 - index * 5}%</span>
-                </div>
-              </div>
-              <h3 class="text-lg font-semibold">{category.name}</h3>
-            </div>
-            
-            <!-- Skills Tags -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {skills.map((category) => (
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">{category.name}</h3>
             <div class="flex flex-wrap gap-2">
-              {category.items.map((skill, skillIndex) => (
-                <span 
-                  class="px-3 py-1.5 rounded-lg text-sm font-medium hover-scale transition-transform duration-200 cursor-pointer"
-                  style={`background: linear-gradient(135deg, color-mix(in srgb, var(--primary) ${15 - skillIndex * 2}%, transparent), color-mix(in srgb, var(--accent) ${15 - skillIndex * 2}%, transparent)); color: var(--primary-dark);`}
-                >
+              {category.items.map((skill) => (
+                <span class="px-3 py-1.5 rounded-lg text-sm font-medium" style="background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--primary);">
                   {skill}
                 </span>
               ))}
@@ -71,13 +31,5 @@ const { skills } = Astro.props;
         ))}
       </div>
     )}
-
-    <!-- Decorative Elements -->
-    <div class="absolute -top-10 -left-10 w-20 h-20 opacity-20">
-      <div class="w-full h-full rounded-full border-2 border-dashed animate-spin" style="border-color: var(--primary);"></div>
-    </div>
-    <div class="absolute -bottom-10 -right-10 w-20 h-20 opacity-20">
-      <div class="w-full h-full rounded-full border-2 border-dashed animate-spin" style="border-color: var(--accent); animation-direction: reverse;"></div>
-    </div>
   </div>
 </section>

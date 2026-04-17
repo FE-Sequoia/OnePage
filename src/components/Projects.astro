@@ -6,103 +6,45 @@ interface Props {
 const { projects } = Astro.props;
 ---
 
-<section id="projects" class="py-24 px-4 relative overflow-hidden" style="background: linear-gradient(180deg, var(--hero-gradient-dark) 0%, var(--hero-gradient) 50%, var(--hero-gradient-dark) 100%);">
-  <!-- Animated Background -->
-  <div class="absolute inset-0 -z-10">
-    <div class="absolute top-1/4 -right-48 w-96 h-96 rounded-full blur-3xl opacity-30" style="background: var(--accent);"></div>
-    <div class="absolute bottom-1/4 -left-48 w-80 h-80 rounded-full blur-3xl opacity-25" style="background: var(--primary);"></div>
-    <div class="absolute inset-0" style="background-image: linear-gradient(rgba(59, 130, 246, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.02) 1px, transparent 1px); background-size: 50px 50px;"></div>
-  </div>
-
-  <div class="max-w-6xl mx-auto relative">
-    <div class="text-center mb-16">
-      <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 glass-card" style="color: var(--primary);">Projects</span>
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 font-display">
-        项目<span class="gradient-text">案例</span>
+<section id="projects" class="py-24 px-4 bg-white dark:bg-dark">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
+        项目案例
       </h2>
-      <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">每一个项目都是一次精心打磨的创作</p>
+      <div class="w-16 h-1 mx-auto rounded-full" style="background: linear-gradient(to right, var(--primary), var(--accent));"></div>
     </div>
 
     {projects && projects.length > 0 && (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 perspective-1000">
-        {projects.map((project, idx) => (
-          <article class="group card-3d relative">
-            <!-- Gradient border effect -->
-            <div class="absolute -inset-0.5 rounded-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" style="background: linear-gradient(135deg, var(--primary), var(--accent));"></div>
-            
-            <div class="relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden">
-              <!-- Image with zoom -->
-              {project.image && (
-                <div class="relative h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.name}
-                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    {(project.qrcode || project.screenshots) && (
-                      <button
-                        onclick={`openModal('modal-${idx}')`}
-                        class="px-4 py-2 bg-white/90 text-gray-800 rounded-lg text-sm font-medium hover:bg-white transition-colors"
-                      >
-                        查看详情
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
- 
-              <div class="p-5">
-                <h3 class="text-lg font-bold mb-2 group-hover:gradient-text transition-all duration-300">
-                  {project.name}
-                </h3>
-                
-                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed line-clamp-2">
-                  {project.description}
-                </p>
-
-                <!-- Tech tags -->
-                <div class="flex flex-wrap gap-1.5 mb-4">
-                  {project.tech.slice(0, 4).map((t) => (
-                    <span class="px-2.5 py-1 rounded-lg text-xs font-medium" style="background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--primary);">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <!-- Links -->
-                <div class="flex gap-4 pt-3 border-t border-gray-100/50 dark:border-gray-700/50">
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm font-medium flex items-center gap-1 hover-lift transition-all duration-300"
-                      style="color: var(--primary);"
-                    >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                      </svg>
-                      代码
-                    </a>
-                  )}
-                  {project.demo && (
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm font-medium flex items-center gap-1 hover-lift transition-all duration-300"
-                      style="color: var(--accent);"
-                    >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 11.17v4.618a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      演示
-                    </a>
-                  )}
-                </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project) => (
+          <article class="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+            {project.image && (
+              <div class="h-44 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            )}
+            <div class="p-5">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{project.name}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">{project.description}</p>
+              <div class="flex flex-wrap gap-1.5 mb-3">
+                {project.tech.slice(0, 4).map((t) => (
+                  <span class="px-2 py-0.5 rounded text-xs font-medium" style="background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--primary);">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div class="flex gap-4 text-sm">
+                {project.link && (
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" class="font-medium" style="color: var(--primary);">代码</a>
+                )}
+                {project.demo && (
+                  <a href={project.demo} target="_blank" rel="noopener noreferrer" class="font-medium" style="color: var(--accent);">演示</a>
+                )}
               </div>
             </div>
           </article>
@@ -110,73 +52,4 @@ const { projects } = Astro.props;
       </div>
     )}
   </div>
-
-  <!-- Modals -->
-  {projects?.map((project, idx) => (
-    (project.qrcode || project.screenshots) && (
-      <div id={`modal-${idx}`} class="fixed inset-0 z-50 hidden" onclick={`closeModal('modal-${idx}')`}>
-        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-4" onclick="event.stopPropagation()">
-          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-lg font-bold gradient-text">{project.name}</h3>
-              <button onclick={`closeModal('modal-${idx}')`} class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
-            
-            {project.qrcode && (
-              <div class="mb-4 text-center">
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">扫��体验</p>
-                <img src={project.qrcode} alt="二维码" class="w-40 h-40 mx-auto object-contain rounded-xl" style="background: linear-gradient(var(--hero-gradient), var(--hero-gradient));" />
-              </div>
-            )}
-            
-            {project.screenshots && project.screenshots.length > 0 && (
-              <div>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">截图预览</p>
-                <div class="flex gap-2 overflow-x-auto pb-2">
-                  {project.screenshots.map((screenshot) => (
-                    <img src={screenshot} alt="截图" class="w-40 h-auto object-contain rounded-lg flex-shrink-0 hover-scale transition-transform duration-200" />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    )
-  ))}
 </section>
-
-<script is:inline>
-  function openModal(id) {
-    const modal = document.getElementById(id);
-    if (modal) {
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function closeModal(id) {
-    const modal = document.getElementById(id);
-    if (modal) {
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      const modals = document.querySelectorAll('[id^="modal-"]');
-      modals.forEach(modal => {
-        if (!modal.classList.contains('hidden')) {
-          modal.classList.add('hidden');
-          document.body.style.overflow = '';
-        }
-      });
-    }
-  });
-</script>
