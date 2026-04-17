@@ -6,26 +6,27 @@ interface Props {
 const { education } = Astro.props;
 ---
 
-<section id="education" class="py-24 px-4 bg-white dark:bg-dark">
+<section id="education" class="py-24 px-4 bg-white">
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-14">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-        教育背景
-      </h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">教育背景</h2>
       <div class="w-16 h-1 mx-auto rounded-full" style="background: linear-gradient(to right, var(--primary), var(--accent));"></div>
     </div>
 
     {education && education.length > 0 && (
       <div class="space-y-4">
-        {education.map((edu) => (
-          <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{edu.school}</h3>
-                <p class="font-medium" style="color: var(--primary);">{edu.degree}</p>
-              </div>
-              <span class="text-sm text-gray-500">{edu.period}</span>
+        {education.map((edu, idx) => (
+          <div class="flex items-center gap-4 bg-gradient-to-r rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300" style={`from-white to-${idx % 2 === 0 ? 'blue' : 'cyan'}-50`}>
+            <div class="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, var(--primary), var(--accent));">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+              </svg>
             </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-bold text-gray-900">{edu.school}</h3>
+              <p class="font-medium" style="color: var(--primary);">{edu.degree}</p>
+            </div>
+            <span class="text-sm text-gray-500 font-medium">{edu.period}</span>
           </div>
         ))}
       </div>

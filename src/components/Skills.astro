@@ -6,23 +6,23 @@ interface Props {
 const { skills } = Astro.props;
 ---
 
-<section id="skills" class="py-24 px-4 bg-gray-50 dark:bg-gray-900/50">
+<section id="skills" class="py-24 px-4" style="background: linear-gradient(180deg, #fff 0%, #eff6ff 100%);">
   <div class="max-w-5xl mx-auto">
     <div class="text-center mb-14">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-        技能专长
-      </h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">技能专长</h2>
       <div class="w-16 h-1 mx-auto rounded-full" style="background: linear-gradient(to right, var(--primary), var(--accent));"></div>
     </div>
 
     {skills && skills.length > 0 && (
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {skills.map((category) => (
-          <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">{category.name}</h3>
+        {skills.map((category, idx) => (
+          <div class="bg-white rounded-xl p-5 shadow-lg border-t-4 hover:shadow-xl transition-shadow duration-300" style={`border-color: ${idx % 2 === 0 ? 'var(--primary)' : 'var(--accent)'};`}>
+            <h3 class="text-lg font-bold text-gray-900 mb-3" style={idx % 2 === 0 ? `color: var(--primary);` : `color: var(--accent);`}>
+              {category.name}
+            </h3>
             <div class="flex flex-wrap gap-2">
               {category.items.map((skill) => (
-                <span class="px-3 py-1.5 rounded-lg text-sm font-medium" style="background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--primary);">
+                <span class="px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors cursor-default">
                   {skill}
                 </span>
               ))}

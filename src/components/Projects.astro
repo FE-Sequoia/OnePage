@@ -6,44 +6,43 @@ interface Props {
 const { projects } = Astro.props;
 ---
 
-<section id="projects" class="py-24 px-4 bg-white dark:bg-dark">
+<section id="projects" class="py-24 px-4" style="background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);">
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-14">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-        项目案例
-      </h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">项目案例</h2>
       <div class="w-16 h-1 mx-auto rounded-full" style="background: linear-gradient(to right, var(--primary), var(--accent));"></div>
     </div>
 
     {projects && projects.length > 0 && (
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
-          <article class="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        {projects.map((project, idx) => (
+          <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group">
             {project.image && (
-              <div class="h-44 overflow-hidden">
+              <div class="h-44 overflow-hidden relative">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
                 <img
                   src={project.image}
                   alt={project.name}
-                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
             )}
             <div class="p-5">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{project.name}</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">{project.description}</p>
+              <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">{project.name}</h3>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">{project.description}</p>
               <div class="flex flex-wrap gap-1.5 mb-3">
                 {project.tech.slice(0, 4).map((t) => (
-                  <span class="px-2 py-0.5 rounded text-xs font-medium" style="background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--primary);">
+                  <span class="px-2 py-1 rounded text-xs font-medium" style="background: var(--primary-light); color: white;">
                     {t}
                   </span>
                 ))}
               </div>
-              <div class="flex gap-4 text-sm">
+              <div class="flex gap-4 text-sm font-medium">
                 {project.link && (
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" class="font-medium" style="color: var(--primary);">代码</a>
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors" style="color: var(--primary);">代码</a>
                 )}
                 {project.demo && (
-                  <a href={project.demo} target="_blank" rel="noopener noreferrer" class="font-medium" style="color: var(--accent);">演示</a>
+                  <a href={project.demo} target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors" style="color: var(--accent);">演示</a>
                 )}
               </div>
             </div>

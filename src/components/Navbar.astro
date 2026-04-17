@@ -14,24 +14,20 @@ const navItems = [
 ];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50" id="navbar">
-  <div class="absolute inset-0 bg-white/80 dark:bg-dark/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-800/50"></div>
-  
-  <nav class="relative max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-    <a href="#about" class="relative group">
-      <span class="text-xl font-bold gradient-text">{name}</span>
-      <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full"></span>
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+  <nav class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+    <a href="#about" class="text-xl font-bold text-gray-900">
+      {name}
     </a>
 
-    <ul class="hidden md:flex items-center gap-2">
+    <ul class="hidden md:flex items-center gap-1">
       {navItems.map((item) => (
         <li>
           <a
             href={item.href}
-            class="relative px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-all duration-300 group"
+            class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors"
           >
-            <span class="relative z-10">{item.label}</span>
-            <span class="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></span>
+            {item.label}
           </a>
         </li>
       ))}
@@ -39,7 +35,7 @@ const navItems = [
 
     <button
       id="mobile-menu-btn"
-      class="md:hidden p-2 rounded-lg hover:bg-primary/5 transition-colors"
+      class="md:hidden p-2 text-gray-600 hover:text-primary"
       aria-label="菜单"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,14 +44,11 @@ const navItems = [
     </button>
   </nav>
 
-  <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-dark border-t border-gray-200 dark:border-gray-800">
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
     <ul class="px-4 py-2 space-y-1">
       {navItems.map((item) => (
         <li>
-          <a
-            href={item.href}
-            class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
-          >
+          <a href={item.href} class="block py-3 px-4 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg">
             {item.label}
           </a>
         </li>
