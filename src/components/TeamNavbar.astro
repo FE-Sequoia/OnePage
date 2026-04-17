@@ -7,30 +7,43 @@ const navItems = [
   { label: '动态', href: '/OnePage/news' },
   { label: '联系', href: '/OnePage/contact' },
 ];
+
+const currentPath = Astro.url.pathname;
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-dark/80 backdrop-blur-lg border-b border-gray-100 dark:border-gray-800">
+<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
   <nav class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-    <a href="/OnePage/" class="text-xl font-bold" style="background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-      {Astro.props.siteName}
+    <a 
+      href="/OnePage/" 
+      class="text-xl font-bold relative group"
+    >
+      <span class="gradient-text">{Astro.props.siteName}</span>
+      <span class="absolute -bottom-1 left-0 w-0 h-0.5 gradient-text transition-all duration-300 group-hover:w-full"></span>
     </a>
 
-    <ul class="hidden md:flex items-center gap-8">
-      {navItems.map((item) => (
-        <li>
-          <a
-            href={item.href}
-            class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors text-sm font-medium"
-          >
-            {item.label}
-          </a>
-        </li>
-      ))}
+    <ul class="hidden md:flex items-center gap-2">
+      {navItems.map((item, index) => {
+        const isActive = currentPath === item.href || (item.href !== '/OnePage/' && currentPath.startsWith(item.href));
+        return (
+          <li>
+            <a
+              href={item.href}
+              class="relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover-lift"
+              style={isActive ? `color: var(--primary); background: var(--hero-gradient);` : `color: var(--primary-dark);`}
+            >
+              <span class="relative z-10">{item.label}</span>
+              {isActive && (
+                <span class="absolute inset-0 rounded-lg glow opacity-50" style="background: var(--gradient);"></span>
+              )}
+            </a>
+          </li>
+        );
+      })}
     </ul>
 
     <button
       id="mobile-menu-btn"
-      class="md:hidden p-2 text-gray-600 dark:text-gray-300"
+      class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
       aria-label="菜单"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,13 +52,13 @@ const navItems = [
     </button>
   </nav>
 
-  <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-dark border-t border-gray-200 dark:border-gray-800">
-    <ul class="px-4 py-3 space-y-2">
+  <div id="mobile-menu" class="hidden md:hidden glass border-t border-gray-200/50 dark:border-gray-800/50">
+    <ul class="px-4 py-3 space-y-1">
       {navItems.map((item) => (
         <li>
           <a
             href={item.href}
-            class="block py-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors"
+            class="block py-3 px-4 rounded-lg text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300"
           >
             {item.label}
           </a>
@@ -55,11 +68,31 @@ const navItems = [
   </div>
 </header>
 
-<script>
+<script is:inline>
+  const navbar = document.getElementById('navbar');
   const menuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 100) {
+      navbar.classList.add('glass', 'shadow-lg');
+    } else {
+      navbar.classList.remove('glass', 'shadow-lg');
+    }
+    
+    lastScroll = currentScroll;
+  });
 
   menuBtn?.addEventListener('click', () => {
     mobileMenu?.classList.toggle('hidden');
+  });
+
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
   });
 </script>

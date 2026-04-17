@@ -11,39 +11,61 @@ const { mode, site, company, members, theme } = config;
 <TeamLayout title={company?.name ? `关于我们 - ${company.name}` : '关于我们'} description={company?.description} theme={theme}>
   <TeamNavbar siteName={company?.name || 'Team'} />
   
-  <main class="pt-20">
-    <!-- Hero Section -->
-    <section class="py-20 px-4 relative overflow-hidden">
+  <main class="relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 -z-10">
       <div class="absolute inset-0" style="background: linear-gradient(135deg, var(--hero-gradient));"></div>
+      <div class="blob w-[400px] h-[400px] top-40 -left-32" style="background: var(--primary-light); opacity: 0.3;"></div>
+      <div class="blob w-[300px] h-[300px] top-60 -right-24" style="background: var(--accent-light); opacity: 0.25;"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="py-32 px-4 relative">
       <div class="max-w-4xl mx-auto text-center relative z-10">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-          关于我们
+        <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6 glass fade-in" style="color: var(--primary);">About</span>
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 fade-in-up">
+          关于<span class="gradient-text">我们</span>
         </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto fade-in-up animate-delay-200">
           {company?.description || '致力于为客户提供优质的互联网解决方案'}
         </p>
       </div>
     </section>
 
     <!-- Company Info -->
-    <section class="py-16 px-4">
+    <section class="py-24 px-4">
       <div class="max-w-6xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--primary);">公司介绍</h2>
+          <div class="animate-on-scroll fade-in-left">
+            <span class="text-sm font-medium mb-4 block" style="color: var(--primary);">Company</span>
+            <h2 class="text-3xl font-bold mb-6">公司介绍</h2>
             <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
               {company?.description || '我们是一家专注于互联网产品设计与开发的工作室。'}
             </p>
             {company?.founded && (
-              <p class="text-gray-600 dark:text-gray-300">
-                <strong>成立时间：</strong>{company.founded}
-              </p>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: var(--gradient);">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">成立时间</p>
+                  <p class="font-semibold">{company.founded}</p>
+                </div>
+              </div>
             )}
           </div>
-          <div class="flex justify-center">
-            {site?.logo && (
-              <img src={site.logo} alt="Logo" class="max-w-xs" />
-            )}
+          <div class="animate-on-scroll fade-in-right">
+            <div class="relative">
+              {site?.logo ? (
+                <img src={site.logo} alt="Logo" class="w-full max-w-md mx-auto hover-scale transition-transform duration-500" />
+              ) : (
+                <div class="w-64 h-64 mx-auto rounded-3xl flex items-center justify-center glass hover-lift transition-all duration-300" style="background: var(--gradient);">
+                  <span class="text-4xl font-bold text-white">{company?.name?.slice(0, 2) || ' logo'}</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -51,18 +73,19 @@ const { mode, site, company, members, theme } = config;
 
     <!-- Values -->
     {company?.values && company.values.length > 0 && (
-      <section class="py-16 px-4 bg-gray-50 dark:bg-darker">
+      <section class="py-24 px-4" style="background: linear-gradient(180deg, var(--hero-gradient) 0%, var(--hero-gradient-dark) 100%);">
         <div class="max-w-6xl mx-auto">
-          <h2 class="text-2xl font-bold text-center mb-12" style="color: var(--primary);">
-            核心价值观
-          </h2>
+          <div class="text-center mb-16">
+            <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 glass" style="color: var(--primary);">Values</span>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">核心价值观</h2>
+          </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {company.values.map((value, index) => (
-              <div class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-md">
-                <div class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: var(--gradient);">
-                  <span class="text-white font-bold text-lg">{index + 1}</span>
+              <div class="glass rounded-2xl p-6 text-center hover-lift hover-glow transition-all duration-300 animate-on-scroll" style={`animation-delay: ${index * 100}ms;`}>
+                <div class="w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center hover-scale transition-transform duration-300" style="background: var(--gradient);">
+                  <span class="text-2xl font-bold text-white">{index + 1}</span>
                 </div>
-                <h3 class="font-semibold text-gray-900 dark:text-white">{value}</h3>
+                <h3 class="font-semibold text-lg">{value}</h3>
               </div>
             ))}
           </div>
@@ -72,22 +95,26 @@ const { mode, site, company, members, theme } = config;
 
     <!-- Team Members -->
     {members && members.length > 0 && (
-      <section class="py-16 px-4">
+      <section class="py-24 px-4">
         <div class="max-w-6xl mx-auto">
-          <h2 class="text-2xl font-bold text-center mb-12" style="color: var(--primary);">
-            团队成员
-          </h2>
+          <div class="text-center mb-16">
+            <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 glass" style="color: var(--primary);">Team</span>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">团队成员</h2>
+            <p class="text-gray-600 dark:text-gray-400">专业的团队，卓越的服务</p>
+          </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {members.map((member) => (
-              <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md text-center">
-                {member.avatar && (
-                  <img 
-                    src={member.avatar} 
-                    alt={member.name} 
-                    class="w-24 h-24 mx-auto rounded-full object-cover mb-4"
-                  />
-                )}
-                <h3 class="font-semibold text-gray-900 dark:text-white">{member.name}</h3>
+            {members.map((member, index) => (
+              <div class="group glass rounded-2xl p-6 text-center hover-lift hover-glow transition-all duration-300 animate-on-scroll" style={`animation-delay: ${index * 100}ms;`}>
+                <div class="relative mb-4 mx-auto w-28 h-28 rounded-full overflow-hidden border-4 border-transparent transition-all duration-300 group-hover:scale-110" style="border-color: var(--primary);">
+                  {member.avatar ? (
+                    <img src={member.avatar} alt={member.name} class="w-full h-full object-cover" />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center" style="background: var(--hero-gradient);">
+                      <span class="text-3xl font-bold gradient-text">{member.name?.slice(0, 1)}</span>
+                    </div>
+                  )}
+                </div>
+                <h3 class="font-semibold text-lg group-hover:gradient-text transition-all duration-300">{member.name}</h3>
                 <p class="text-sm mb-2" style="color: var(--primary);">{member.role}</p>
                 {member.bio && (
                   <p class="text-sm text-gray-600 dark:text-gray-400">{member.bio}</p>
