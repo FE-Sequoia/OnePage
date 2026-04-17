@@ -14,20 +14,24 @@ const navItems = [
 ];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-dark/80 backdrop-blur-lg border-b border-gray-100 dark:border-gray-800">
-  <nav class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-    <a href="#about" class="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:opacity-80 transition-opacity">
-      {name}
+<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="navbar">
+  <div class="absolute inset-0 bg-white/60 dark:bg-dark/60 backdrop-blur-xl border-b border-white/10 dark:border-white/5 transition-all duration-500" id="navbar-bg"></div>
+  
+  <nav class="relative max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+    <a href="#about" class="relative group">
+      <span class="text-xl font-bold gradient-text">{name}</span>
+      <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full"></span>
     </a>
 
-    <ul class="hidden md:flex items-center gap-1">
-      {navItems.map((item) => (
+    <ul class="hidden md:flex items-center gap-2">
+      {navItems.map((item, index) => (
         <li>
           <a
             href={item.href}
-            class="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-200 text-sm font-medium"
+            class="relative px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-all duration-300 group"
           >
-            {item.label}
+            <span class="relative z-10">{item.label}</span>
+            <span class="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></span>
           </a>
         </li>
       ))}
@@ -35,7 +39,7 @@ const navItems = [
 
     <button
       id="mobile-menu-btn"
-      class="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors"
+      class="md:hidden p-2 rounded-lg hover:bg-primary/5 transition-colors"
       aria-label="菜单"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,13 +48,13 @@ const navItems = [
     </button>
   </nav>
 
-  <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-dark border-t border-gray-100 dark:border-gray-800">
+  <div id="mobile-menu" class="hidden md:hidden glass-card border-t border-white/10 dark:border-white/5">
     <ul class="px-4 py-2 space-y-1">
       {navItems.map((item) => (
         <li>
           <a
             href={item.href}
-            class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
+            class="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-300"
           >
             {item.label}
           </a>
@@ -60,11 +64,38 @@ const navItems = [
   </div>
 </header>
 
-<script>
+<script is:inline>
+  const navbar = document.getElementById('navbar');
+  const navbarBg = document.getElementById('navbar-bg');
   const menuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 50) {
+      navbarBg.classList.add('shadow-lg', 'shadow-primary/5');
+    } else {
+      navbarBg.classList.remove('shadow-lg', 'shadow-primary/5');
+    }
+    
+    if (currentScroll > 100) {
+      navbarBg.classList.add('-translate-y-full');
+    } else {
+      navbarBg.classList.remove('-translate-y-full');
+    }
+    
+    lastScroll = currentScroll;
+  });
 
   menuBtn?.addEventListener('click', () => {
     mobileMenu?.classList.toggle('hidden');
+  });
+
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
   });
 </script>

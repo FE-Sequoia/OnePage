@@ -12,136 +12,172 @@ const { name, title, avatar, bio, email, socials } = Astro.props;
 ---
 
 <section id="about" class="min-h-screen flex flex-col justify-center items-center py-20 px-4 relative overflow-hidden">
-  <canvas id="bubbles" class="absolute inset-0 -z-10"></canvas>
+  <!-- Animated Background -->
+  <div class="absolute inset-0 -z-10">
+    <!-- Gradient orbs -->
+    <div class="absolute top-1/4 -left-32 w-96 h-96 rounded-full blur-3xl opacity-40 animate-float" style="background: var(--primary);"></div>
+    <div class="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full blur-3xl opacity-30 animate-float-delayed" style="background: var(--accent);"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl opacity-20" style="background: linear-gradient(var(--primary), var(--accent));"></div>
+    
+    <!-- Grid -->
+    <div class="absolute inset-0" style="background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px); background-size: 60px 60px;"></div>
+  </div>
   
-  <div class="max-w-3xl w-full text-center animate-fade-in">
+  <!-- Star canvas -->
+  <canvas id="stars" class="absolute inset-0 -z-10"></canvas>
+  
+  <!-- Main Content -->
+  <div class="max-w-4xl w-full text-center relative z-10">
+    <!--Avatar with ring animation -->
     {avatar && (
-      <div class="mb-8 relative">
-        <div class="absolute inset-0 rounded-full blur-xl opacity-40 animate-float" style="background: linear-gradient(135deg, var(--primary, #3b82f6), var(--accent, #06b6d4));"></div>
-        <img
-          src={avatar}
-          alt={name}
-          class="relative w-36 h-36 mx-auto rounded-full object-cover shadow-xl ring-4 ring-white dark:ring-gray-800"
-        />
+      <div class="mb-10 relative inline-block">
+        <div class="relative">
+          <div class="absolute inset-0 rounded-full animate-pulse-ring" style="background: linear-gradient(var(--primary), var(--accent));"></div>
+          <div class="absolute -inset-4 rounded-full animate-pulse-ring" style="background: linear-gradient(var(--primary), var(--accent)); animation-delay: -0.5s; opacity: 0.5;"></div>
+          <div class="absolute -inset-8 rounded-full animate-pulse-ring" style="background: linear-gradient(var(--primary), var(--accent)); animation-delay: -1s; opacity: 0.3;"></div>
+          <img
+            src={avatar}
+            alt={name}
+            class="relative w-36 h-36 mx-auto rounded-full object-cover shadow-2xl ring-4 ring-white/20 dark:ring-white/10"
+          />
+        </div>
       </div>
     )}
 
-    <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-      <span class="bg-clip-text text-transparent" style="background: linear-gradient(135deg, var(--primary, #3b82f6), var(--accent, #06b6d4)); -webkit-background-clip: text;">
-        {name}
-      </span>
-    </h1>
+    <!-- Name with typing effect -->
+    <div class="mb-2">
+      <h1 class="text-5xl md:text-7xl font-bold font-display">
+        <span class="gradient-text">{name}</span>
+      </h1>
+    </div>
 
-    <p class="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 font-medium mb-6">
-      {title}
-    </p>
+    <!-- Title with typewriter -->
+    <div class="text-xl md:text-2xl mb-6 h-8">
+      <span id="typewriter" class="text-gray-500 dark:text-gray-400"></span>
+      <span class="inline-block w-0.5 h-6 ml-1 align-middle animate-blink" style="background: var(--primary);"></span>
+    </div>
 
+    <!-- Bio -->
     {bio && (
-      <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto mb-8">
+      <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto mb-10">
         {bio}
       </p>
     )}
 
-    <div class="flex flex-wrap justify-center gap-4">
+    <!-- Social Links -->
+    <div class="flex flex-wrap justify-center gap-4 mb-12">
       {socials?.map((social) => (
         <a
           href={social.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="px-6 py-3 bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50"
+          class="group relative px-6 py-3 rounded-full overflow-hidden hover-lift transition-all duration-300"
         >
-          {social.platform}
+          <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute inset-0 border border-primary/30 rounded-full"></div>
+          <span class="relative z-10 text-gray-700 dark:text-gray-200 group-hover:text-white transition-colors duration-300 font-medium">
+            {social.platform}
+          </span>
         </a>
       ))}
       {email && (
         <a
           href={`mailto:${email}`}
-          class="px-8 py-3 text-white rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-medium"
-          style="background: linear-gradient(135deg, var(--primary, #3b82f6), var(--accent, #06b6d4)); box-shadow: 0 10px 15px -3px var(--primary, #3b82f6)40;"
+          class="group relative px-8 py-3 rounded-full overflow-hidden hover-lift transition-all duration-300"
+          style="background: linear-gradient(135deg, var(--primary), var(--accent));"
         >
-          联系我
+          <span class="relative z-10 text-white font-semibold">联系我</span>
+          <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
         </a>
       )}
     </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+      <div class="glass-card rounded-2xl p-4 hover-lift transition-all duration-300">
+        <div class="text-2xl md:text-3xl font-bold gradient-text">{socials?.length || 0}</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">社交平台</div>
+      </div>
+      <div class="glass-card rounded-2xl p-4 hover-lift transition-all duration-300" style="animation-delay: 100ms;">
+        <div class="text-2xl md:text-3xl font-bold gradient-text">5+</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">项目经验</div>
+      </div>
+      <div class="glass-card rounded-2xl p-4 hover-lift transition-all duration-300" style="animation-delay: 200ms;">
+        <div class="text-2xl md:text-3xl font-bold gradient-text">3+</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">年经验</div>
+      </div>
+    </div>
   </div>
 
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce" style="color: var(--primary, #3b82f6);">
-    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-    </svg>
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator">
+    <div class="mouse-scroll text-primary dark:text-primary"></div>
   </div>
 </section>
 
 <script is:inline>
-  const canvas = document.getElementById('bubbles');
-  const ctx = canvas.getContext('2d');
+  // Typewriter effect
+  const titleText = `/${title || 'Developer'}`;
+  const typewriter = document.getElementById('typewriter');
+  let charIndex = 0;
   
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-  canvas.width = width;
-  canvas.height = height;
-
-  const style = getComputedStyle(document.documentElement);
-  const primary = style.getPropertyValue('--primary').trim() || '#3b82f6';
-  const accent = style.getPropertyValue('--accent').trim() || '#06b6d4';
-  
-  const colors = [primary, accent, '#10b981', '#8b5cf6', '#f97316'];
-  
-  const bubbles = [];
-  const bubbleCount = 15;
-
-  for (let i = 0; i < bubbleCount; i++) {
-    bubbles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radius: Math.random() * 80 + 20,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      opacity: Math.random() * 0.15 + 0.05
-    });
+  function type() {
+    if (charIndex < titleText.length) {
+      typewriter.textContent += titleText.charAt(charIndex);
+      charIndex++;
+      setTimeout(type, 100 + Math.random() * 100);
+    }
   }
+  
+  setTimeout(type, 1000);
 
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    
-    bubbles.forEach(bubble => {
-      bubble.x += bubble.vx;
-      bubble.y += bubble.vy;
-      
-      if (bubble.x < -bubble.radius) bubble.x = width + bubble.radius;
-      if (bubble.x > width + bubble.radius) bubble.x = -bubble.radius;
-      if (bubble.y < -bubble.radius) bubble.y = height + bubble.radius;
-      if (bubble.y > height + bubble.radius) bubble.y = -bubble.radius;
-      
-      ctx.beginPath();
-      ctx.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
-      ctx.fillStyle = bubble.color + Math.floor(bubble.opacity * 255).toString(16).padStart(2, '0');
-      ctx.fill();
-    });
-    
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-
-  window.addEventListener('resize', () => {
-    width = window.innerWidth;
-    height = window.innerHeight;
+  // Star canvas
+  const canvas = document.getElementById('stars');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-  });
 
-  function updateCanvasBackground() {
-    const isDark = document.documentElement.classList.contains('dark');
-    const bgGradient = isDark 
-      ? 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #172554 100%)'
-      : 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%)';
-    canvas.style.background = bgGradient;
+    const stars = [];
+    const starCount = 150;
+
+    for (let i = 0; i < starCount; i++) {
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 1.5 + 0.5,
+        alpha: Math.random(),
+        speed: Math.random() * 0.02 + 0.005
+      });
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, width, height);
+      
+      stars.forEach(star => {
+        star.alpha += star.speed;
+        if (star.alpha > 1 || star.alpha < 0.2) {
+          star.speed = -star.speed;
+        }
+        
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(59, 130, 246, ${star.alpha})`;
+        ctx.fill();
+      });
+      
+      requestAnimationFrame(drawStars);
+    }
+
+    drawStars();
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
   }
-
-  updateCanvasBackground();
-  
-  const observer = new MutationObserver(updateCanvasBackground);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>

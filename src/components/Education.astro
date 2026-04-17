@@ -6,34 +6,46 @@ interface Props {
 const { education } = Astro.props;
 ---
 
-<section id="education" class="py-16 px-4 relative overflow-hidden">
-  <div class="absolute inset-0 bg-gray-50/50 dark:bg-darker/50 -z-10"></div>
-  <div class="absolute top-0 left-1/4 w-64 h-64 rounded-full blur-3xl" style="background: var(--primary, #8b5cf6); opacity: 0.15;"></div>
-  <div class="absolute bottom-0 right-1/4 w-64 h-64 rounded-full blur-3xl" style="background: var(--accent, #3b82f6); opacity: 0.15;"></div>
+<section id="education" class="py-24 px-4 relative overflow-hidden" style="background: linear-gradient(180deg, var(--hero-gradient) 0%, var(--hero-gradient-dark) 100%);">
+  <!-- Background -->
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute top-0 left-1/4 w-64 h-64 rounded-full blur-3xl opacity-30" style="background: var(--primary);"></div>
+    <div class="absolute bottom-0 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-25" style="background: var(--accent);"></div>
+  </div>
 
   <div class="max-w-4xl mx-auto relative">
-    <div class="text-center mb-8">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-        教育经历
+    <div class="text-center mb-16">
+      <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 glass-card" style="color: var(--primary);">Education</span>
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 font-display">
+        教育<span class="gradient-text">背景</span>
       </h2>
-      <div class="w-20 h-1.5 mx-auto rounded-full" style="background: linear-gradient(to right, var(--primary, #3b82f6), var(--accent, #06b6d4));"></div>
+      <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">知识改变命运，学习成就未来</p>
     </div>
 
     {education && education.length > 0 && (
-      <div class="space-y-3">
-        {education.map((edu) => (
-          <div class="bg-white/80 dark:bg-gray-800/50 rounded-xl p-4 shadow-md border border-gray-100/50 dark:border-gray-700/50 backdrop-blur-sm">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                {edu.school}
-              </h3>
-              <span class="text-sm text-gray-500 dark:text-gray-400">
+      <div class="space-y-4">
+        {education.map((edu, index) => (
+          <div class="group glass-card rounded-2xl p-6 hover-lift hover-glow transition-all duration-500" style={`animation-delay: ${index * 100}ms;`}>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: var(--gradient);">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold group-hover:gradient-text transition-all duration-300">{edu.school}</h3>
+                  <p class="text-sm font-medium" style="color: var(--primary);">{edu.degree}</p>
+                </div>
+              </div>
+              <span class="px-4 py-1.5 rounded-full text-sm font-medium" style="background: var(--gradient); color: white;">
                 {edu.period}
               </span>
             </div>
-            <p class="font-medium text-sm mt-1" style="color: var(--primary, #3b82f6);">
-              {edu.degree}
-            </p>
+            {edu.description && (
+              <p class="text-sm text-gray-600 dark:text-gray-400 mt-3 ml-16">{edu.description}</p>
+            )}
           </div>
         ))}
       </div>
