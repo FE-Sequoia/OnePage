@@ -148,4 +148,4 @@ projects:
 
 theme:
   mode: "auto"
-  theme: "green" # blue / orange / violet / green / rose
+  theme: "blue"

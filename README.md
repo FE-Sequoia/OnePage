@@ -173,17 +173,13 @@ projects:
 ```yaml
 theme:
   mode: "auto" # light / dark / auto（跟随系统）
-  theme: "blue" # blue / orange / violet / green / rose
+  theme: "blue"
 ```
 
 可选主题：
 | 主题 | 主色 | 强调色 | 风格 |
 |------|------|--------|------|
-| blue | #3B82F6 | #06B6D4 | 专业清爽 |
-| orange | #F97316 | #EAB308 | 活力温暖 |
-| violet | #8B5CF6 | #EC4899 | 时尚个性 |
-| green | #10B981 | #14B8A6 | 自然清新 |
-| rose | #F43F5E | #FB7185 | 柔和优雅 |
+| blue | #3B82F6 | #06B6D4 | 专业清爽（默认） |
 
 ## 项目结构
 
