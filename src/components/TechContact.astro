@@ -1,0 +1,125 @@
+---
+// 联系组件 - 全中文
+interface Props {
+  email?: string;
+  socials?: { platform: string; url: string; icon: string }[];
+}
+
+const { email, socials } = Astro.props;
+
+const contactMethods = [
+  {
+    icon: "📧",
+    title: "邮件联系",
+    value: email || "hello@example.com",
+    action: `mailto:${email || "hello@example.com"}`,
+    description: "随时发送邮件咨询"
+  },
+  {
+    icon: "💬",
+    title: "快速沟通",
+    value: "预约通话",
+    action: "#",
+    description: "15分钟免费技术咨询"
+  },
+  {
+    icon: "🚀",
+    title: "项目合作",
+    value: "开始合作",
+    action: "#",
+    description: "获取免费项目报价"
+  }
+];
+---
+
+<section id="contact" class="py-24 px-4 relative overflow-hidden">
+  <!-- 背景装饰 -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-t from-cyan-500/10 to-transparent rounded-full blur-3xl"></div>
+  </div>
+  
+  <div class="max-w-4xl mx-auto relative z-10">
+    <!-- 标题区 -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
+        <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+        <span class="text-sm font-medium text-cyan-300">取得联系</span>
+      </div>
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+          让我们开始合作
+        </span>
+      </h2>
+      <p class="text-gray-400 max-w-xl mx-auto text-lg">
+        准备好将您的想法变为现实了吗？让我们一起探讨如何实现您的下一个项目
+      </p>
+    </div>
+
+    <!-- 联系方式卡片 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      {contactMethods.map((method, idx) => (
+        <a
+          href={method.action}
+          class="group glass-card rounded-2xl p-6 text-center hover:bg-white/5 transition-all duration-300 hover:scale-105"
+        >
+          <div class="text-4xl mb-4">{method.icon}</div>
+          <h3 class="text-lg font-bold text-white mb-1 group-hover:text-cyan-300 transition-colors">
+            {method.title}
+          </h3>
+          <p class="text-cyan-400 font-medium mb-2">{method.value}</p>
+          <p class="text-gray-500 text-sm">{method.description}</p>
+        </a>
+      ))}
+    </div>
+
+    <!-- 社交链接 -->
+    {socials && socials.length > 0 && (
+      <div class="text-center">
+        <p class="text-gray-500 text-sm mb-4">或通过社交媒体联系</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          {socials.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-6 py-3 rounded-xl glass text-gray-400 hover:text-cyan-300 hover:bg-white/10 transition-all duration-300 text-sm font-medium"
+            >
+              {social.platform}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- 可用性状态 -->
+    <div class="mt-12 text-center">
+      <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full glass">
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+        </span>
+        <span class="text-gray-300">可接新项目</span>
+        <span class="text-cyan-400 font-medium">2025年第一季度</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .glass-card {
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+</style>

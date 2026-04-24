@@ -1,0 +1,171 @@
+---
+// 技术能力展示组件 - 全中文
+interface Props {
+  skills?: { name: string; items: string[] }[];
+}
+
+const { skills } = Astro.props;
+
+// 全栈商业化能力
+const defaultCapabilities = [
+  {
+    category: "前端架构",
+    icon: "🎨",
+    level: 95,
+    skills: ["React/Next.js", "TypeScript", "Tailwind CSS", "状态管理", "性能优化"],
+    description: "构建可扩展、高性能的用户界面"
+  },
+  {
+    category: "后端系统",
+    icon: "⚙️",
+    level: 90,
+    skills: ["Node.js/Express", "Python/FastAPI", "GraphQL", "微服务", "API设计"],
+    description: "设计稳健的后端架构和RESTful API"
+  },
+  {
+    category: "数据库与存储",
+    icon: "🗄️",
+    level: 88,
+    skills: ["PostgreSQL", "MongoDB", "Redis", "数据建模", "查询优化"],
+    description: "优化数据存储、检索和管理策略"
+  },
+  {
+    category: "云与DevOps",
+    icon: "☁️",
+    level: 85,
+    skills: ["AWS/阿里云", "Docker", "Kubernetes", "CI/CD", "基础设施即代码"],
+    description: "大规模部署和管理云原生应用"
+  },
+  {
+    category: "系统架构",
+    icon: "🏗️",
+    level: 82,
+    skills: ["架构模式", "可扩展性", "安全性", "监控", "负载均衡"],
+    description: "设计高可用、高性能的分布式系统"
+  },
+  {
+    category: "AI与自动化",
+    icon: "🤖",
+    level: 78,
+    skills: ["LLM集成", "AI智能体", "工作流自动化", "数据管道", "MLOps"],
+    description: "集成AI能力，自动化业务流程"
+  }
+];
+
+const capabilities = skills && skills.length > 0 
+  ? skills.map((s, i) => ({...defaultCapabilities[i % defaultCapabilities.length], ...s}))
+  : defaultCapabilities;
+---
+
+<section id="skills" class="py-24 px-4 relative overflow-hidden">
+  <!-- 背景装饰 -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto relative z-10">
+    <!-- 标题区 -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
+        <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+        <span class="text-sm font-medium text-cyan-300">技术专长</span>
+      </div>
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+          全栈技术能力
+        </span>
+      </h2>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+        运用现代技术栈和最佳实践，提供端到端的软件解决方案
+      </p>
+    </div>
+
+    <!-- 技能网格 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {capabilities.map((cap, idx) => (
+        <div 
+          class="group glass-card rounded-2xl p-6 hover:bg-white/5 transition-all duration-500 hover:scale-[1.02]"
+          style={`animation-delay: ${idx * 100}ms;`}
+        >
+          <!-- 头部 -->
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">{cap.icon}</span>
+              <div>
+                <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
+                  {cap.category}
+                </h3>
+              </div>
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="text-2xl font-bold text-cyan-400">{cap.level}</span>
+              <span class="text-sm text-gray-500">%</span>
+            </div>
+          </div>
+          
+          <!-- 进度条 -->
+          <div class="mb-4">
+            <div class="h-2 bg-gray-700/50 rounded-full overflow-hidden">
+              <div 
+                class="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full transition-all duration-1000"
+                style={`width: ${cap.level}%`}
+              ></div>
+            </div>
+          </div>
+          
+          <!-- 描述 -->
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+            {cap.description}
+          </p>
+          
+          <!-- 技能标签 -->
+          <div class="flex flex-wrap gap-2">
+            {cap.skills.map((skill) => (
+              <span class="px-3 py-1 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- 底部统计 -->
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+      {[
+        { value: "8+", label: "年开发经验" },
+        { value: "50+", label: "项目交付" },
+        { value: "99%", label: "客户满意度" },
+        { value: "24/7", label: "技术支持" }
+      ].map((stat, idx) => (
+        <div class="text-center p-6 glass-card rounded-2xl">
+          <div class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">
+            {stat.value}
+          </div>
+          <div class="text-gray-400 text-sm">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .glass-card {
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+</style>

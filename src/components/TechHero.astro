@@ -1,0 +1,236 @@
+---
+// 科技感首屏组件 - 科技蓝配色
+interface Props {
+  name: string;
+  title: string;
+  avatar?: string;
+  bio?: string;
+  email?: string;
+  socials?: { platform: string; url: string; icon: string }[];
+}
+
+const { name, title, avatar, bio, email, socials } = Astro.props;
+
+// 核心服务
+const services = [
+  { icon: "⚡", title: "高性能Web应用", desc: "React/Vue + Node.js 全栈开发" },
+  { icon: "🔧", title: "系统架构设计", desc: "微服务 + 分布式系统设计" },
+  { icon: "📊", title: "数据可视化", desc: "大数据处理 + 可视化大屏" },
+  { icon: "☁️", title: "云服务部署", desc: "AWS/阿里云 + Docker/K8s" }
+];
+---
+
+<section id="hero" class="min-h-screen flex flex-col justify-center py-20 px-4 relative overflow-hidden">
+  <!-- 装饰性光晕 - 科技蓝 -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-[#0066FF]/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-[#00D4FF]/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#0066FF]/5 rounded-full blur-3xl"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto w-full relative z-10">
+    <!-- 顶部状态栏 -->
+    <div class="flex justify-between items-center mb-12">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass">
+        <span class="w-2 h-2 bg-[#00D4FF] rounded-full animate-pulse"></span>
+        <span class="text-sm font-medium text-[#00D4FF]">可接新项目</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6 text-sm text-white/50">
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#0066FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          中国 · 远程协作
+        </span>
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#0066FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          8年+ 开发经验
+        </span>
+      </div>
+    </div>
+
+    <!-- 主要内容区 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- 左侧：个人信息 -->
+      <div class="text-center lg:text-left">
+        <!-- 头像 -->
+        {avatar && (
+          <div class="mb-6 relative inline-block">
+            <div class="absolute inset-0 rounded-full bg-gradient-to-r from-[#0066FF] to-[#00D4FF] blur-xl opacity-40 animate-pulse"></div>
+            <div class="relative w-28 h-28 mx-auto lg:mx-0 rounded-full overflow-hidden ring-4 ring-white/10 glass">
+              <img src={avatar} alt={name} class="w-full h-full object-cover" />
+            </div>
+          </div>
+        )}
+
+        <!-- 姓名 -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#0066FF] via-[#3385FF] to-[#00D4FF]">
+            {name}
+          </span>
+        </h1>
+
+        <!-- 动态打字机 -->
+        <div class="text-lg md:text-xl mb-4 h-8">
+          <span class="text-[#00D4FF] font-mono">&gt; </span>
+          <span id="typewriter-text" class="text-white/70 font-mono"></span>
+          <span class="inline-block w-0.5 h-6 bg-[#00D4FF] ml-1 animate-pulse"></span>
+        </div>
+
+        <!-- 简介 -->
+        {bio && (
+          <p class="text-white/60 leading-relaxed mb-6 max-w-lg mx-auto lg:mx-0">
+            {bio}
+          </p>
+        )}
+
+        <!-- 技术栈标签 -->
+        <div class="flex flex-wrap justify-center lg:justify-start gap-2 mb-8">
+          {['React', 'Node.js', 'TypeScript', 'Python', 'AWS', 'Docker'].map((tech) => (
+            <span class="px-3 py-1.5 rounded-lg glass text-sm text-[#00D4FF] border border-[#00D4FF]/20">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <!-- CTA 按钮 -->
+        <div class="flex flex-wrap justify-center lg:justify-start gap-4">
+          {email && (
+            <a
+              href={`mailto:${email}`}
+              class="group relative px-6 py-3 rounded-xl font-semibold text-white overflow-hidden transition-all duration-300 hover:scale-105"
+            >
+              <div class="absolute inset-0 bg-gradient-to-r from-[#0066FF] to-[#00D4FF]"></div>
+              <div class="absolute inset-0 bg-gradient-to-r from-[#0066FF]/0 via-white/20 to-[#00D4FF]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+              <span class="relative flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                联系我
+              </span>
+            </a>
+          )}
+          <a
+            href="#projects"
+            class="px-6 py-3 rounded-xl font-semibold glass text-[#00D4FF] border border-[#00D4FF]/30 hover:border-[#00D4FF]/60 transition-all duration-300"
+          >
+            查看作品
+          </a>
+        </div>
+
+        <!-- 社交链接 -->
+        {socials && socials.length > 0 && (
+          <div class="flex flex-wrap justify-center lg:justify-start gap-3 mt-6">
+            {socials.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-10 h-10 rounded-lg glass flex items-center justify-center text-white/50 hover:text-[#00D4FF] hover:bg-white/10 transition-all duration-300"
+              >
+                <span class="text-xs">{social.platform.slice(0, 2)}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- 右侧：核心服务卡片 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {services.map((service, idx) => (
+          <div 
+            class="group glass-card rounded-xl p-5 hover:bg-white/5 transition-all duration-300 hover:scale-105 cursor-default border border-[#0066FF]/10 hover:border-[#00D4FF]/30"
+          >
+            <div class="text-3xl mb-3 group-hover:scale-110 transition-transform">{service.icon}</div>
+            <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-[#00D4FF] transition-colors">{service.title}</h3>
+            <p class="text-white/50 text-sm">{service.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 底部统计 -->
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+      {[
+        { value: "8+", label: "年开发经验" },
+        { value: "50+", label: "项目交付" },
+        { value: "99%", label: "客户满意度" },
+        { value: "24/7", label: "技术支持" }
+      ].map((stat) => (
+        <div class="text-center p-4 glass rounded-xl border border-[#0066FF]/10">
+          <div class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#0066FF] to-[#00D4FF]">
+            {stat.value}
+          </div>
+          <div class="text-white/50 text-sm mt-1">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+
+    <!-- 滚动提示 -->
+    <div class="mt-12 text-center">
+      <a href="#skills" class="inline-flex flex-col items-center text-white/40 hover:text-[#00D4FF] transition-colors">
+        <span class="text-sm mb-2">向下滚动</span>
+        <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  // 打字机效果
+  const keywords = ['全栈开发工程师', '系统架构师', '技术顾问', '云原生专家'];
+  let keywordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  const typewriterElement = document.getElementById('typewriter-text');
+  
+  function typeWriter() {
+    if (!typewriterElement) return;
+    
+    const currentKeyword = keywords[keywordIndex];
+    
+    if (isDeleting) {
+      typewriterElement.textContent = currentKeyword.substring(0, charIndex - 1);
+      charIndex--;
+    } else {
+      typewriterElement.textContent = currentKeyword.substring(0, charIndex + 1);
+      charIndex++;
+    }
+    
+    let typeSpeed = isDeleting ? 50 : 100;
+    
+    if (!isDeleting && charIndex === currentKeyword.length) {
+      typeSpeed = 2000;
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      keywordIndex = (keywordIndex + 1) % keywords.length;
+      typeSpeed = 500;
+    }
+    
+    setTimeout(typeWriter, typeSpeed);
+  }
+  
+  setTimeout(typeWriter, 1000);
+</script>
+
+<style>
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+  
+  .glass-card {
+    background: rgba(10, 10, 26, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 102, 255, 0.1);
+  }
+</style>

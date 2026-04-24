@@ -5,30 +5,44 @@ import TeamNavbar from '../components/TeamNavbar.astro';
 import TeamFooter from '../components/TeamFooter.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
-import Hero from '../components/Hero.astro';
-import Skills from '../components/Skills.astro';
-import Projects from '../components/Projects.astro';
-import Experience from '../components/Experience.astro';
-import Education from '../components/Education.astro';
-import Contact from '../components/Contact.astro';
+import TechHero from '../components/TechHero.astro';
+import TechSkills from '../components/TechSkills.astro';
+import TechProjects from '../components/TechProjects.astro';
+import TechContact from '../components/TechContact.astro';
+import ParticleBackground from '../components/ParticleBackground.astro';
 import { loadConfig } from '../utils/config';
 
 const config = loadConfig();
-const { mode, site, profile, company, skills, education, experience, projects, portfolio, members, services, news, theme } = config;
+const { mode, site, profile, company, skills, projects, theme } = config;
 ---
 
 {mode === 'personal' ? (
   <Layout title={site?.title || 'OnePage'} description={site?.description} favicon={site?.favicon} theme={theme}>
-    <Navbar name={profile?.name || 'OnePage'} />
-    <main>
-      <Hero name={profile?.name || ''} title={profile?.title || ''} avatar={profile?.avatar} bio={profile?.bio} email={profile?.email} socials={profile?.socials} />
-      <Skills skills={skills} />
-      <Projects projects={projects} />
-      <Experience experience={experience} />
-      <Education education={education} />
-      <Contact email={profile?.email} socials={profile?.socials} />
-    </main>
-    <Footer name={profile?.name || 'OnePage'} />
+    <div class="relative min-h-screen bg-slate-900">
+      <!-- Particle Background -->
+      <ParticleBackground />
+      
+      <!-- Navigation -->
+      <Navbar name={profile?.name || 'OnePage'} />
+      
+      <!-- Main Content -->
+      <main class="relative z-10">
+        <TechHero 
+          name={profile?.name || ''} 
+          title={profile?.title || ''} 
+          avatar={profile?.avatar} 
+          bio={profile?.bio} 
+          email={profile?.email} 
+          socials={profile?.socials} 
+        />
+        <TechSkills skills={skills} />
+        <TechProjects projects={projects} />
+        <TechContact email={profile?.email} socials={profile?.socials} />
+      </main>
+      
+      <!-- Footer -->
+      <Footer name={profile?.name || 'OnePage'} />
+    </div>
   </Layout>
 ) : (
   <TeamLayout title={site?.title || company?.name || 'OnePage'} description={site?.description} favicon={site?.favicon} theme={theme}>
@@ -68,137 +82,10 @@ const { mode, site, profile, company, skills, education, experience, projects, p
               查看案例
             </a>
           </div>
-
-          <!-- Stats -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 fade-in-up animate-delay-400">
-            <div class="glass rounded-2xl p-6 hover-lift transition-all duration-300">
-              <div class="text-3xl md:text-4xl font-bold gradient-text mb-2">{members?.length || 0}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">团队成员</div>
-            </div>
-            <div class="glass rounded-2xl p-6 hover-lift transition-all duration-300" style="animation-delay: -100ms;">
-              <div class="text-3xl md:text-4xl font-bold gradient-text mb-2">{portfolio?.length || 0}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">完成项目</div>
-            </div>
-            <div class="glass rounded-2xl p-6 hover-lift transition-all duration-300" style="animation-delay: -200ms;">
-              <div class="text-3xl md:text-4xl font-bold gradient-text mb-2">{services?.length || 0}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">服务项目</div>
-            </div>
-            <div class="glass rounded-2xl p-6 hover-lift transition-all duration-300" style="animation-delay: -300ms;">
-              <div class="text-3xl md:text-4xl font-bold gradient-text mb-2">{news?.length || 0}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">新闻动态</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 fade-in animate-delay-500">
-          <div class="w-6 h-10 rounded-full border-2 flex items-start justify-center p-2">
-            <div class="w-1.5 h-3 rounded-full animate-bounce" style="background: var(--primary);"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Featured Services -->
-      {services && services.length > 0 && (
-        <section class="py-24 px-4 relative">
-          <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-              <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 glass" style="color: var(--primary);">Services</span>
-              <h2 class="text-3xl md:text-4xl font-bold mb-4">我们的服务</h2>
-              <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">提供全方位的互联网解决方案</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.slice(0, 6).map((service, index) => (
-                <a href="/OnePage/services" class="group glass rounded-2xl p-6 hover-lift hover-glow transition-all duration-300" style={`animation-delay: -${index}00ms;`}>
-                  {service.icon && (
-                    <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4 gradient-text" style="background: var(--gradient);">
-                      <span class="text-2xl">{service.icon}</span>
-                    </div>
-                  )}
-                  <h3 class="text-xl font-semibold mb-2 group-hover:gradient-text transition-all duration-300">{service.name}</h3>
-                  <p class="text-gray-600 dark:text-gray-400 text-sm">{service.description}</p>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <!-- Featured Portfolio -->
-      {portfolio && portfolio.length > 0 && (
-        <section class="py-24 px-4 relative" style="background: var(--hero-gradient);">
-          <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-              <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 glass" style="color: var(--primary);">Portfolio</span>
-              <h2 class="text-3xl md:text-4xl font-bold mb-4">精选案例</h2>
-              <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">已帮助多家企业实现数字化转型</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {portfolio.slice(0, 4).map((project, index) => (
-                <a href="/OnePage/portfolio" class="group relative overflow-hidden rounded-2xl aspect-video hover-lift transition-all duration-300">
-                  {project.image && (
-                    <img src={project.image} alt={project.title} class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  )}
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 class="text-xl font-semibold text-white mb-1">{project.title}</h3>
-                    <p class="text-gray-300 text-sm">{project.description}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <!-- Team Preview -->
-      {members && members.length > 0 && (
-        <section class="py-24 px-4">
-          <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-              <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 glass" style="color: var(--primary);">Team</span>
-              <h2 class="text-3xl md:text-4xl font-bold mb-4">核心团队</h2>
-              <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">专业的团队，卓越的服务</p>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {members.slice(0, 4).map((member, index) => (
-                <a href="/OnePage/about" class="group text-center animate-on-scroll">
-                  <div class="relative mb-4 mx-auto w-32 h-32 rounded-full overflow-hidden hover-scale border-4 border-transparent transition-all duration-300" style="border-color: var(--primary);">
-                    {member.avatar ? (
-                      <img src={member.avatar} alt={member.name} class="w-full h-full object-cover" />
-                    ) : (
-                      <div class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-                        <span class="text-3xl font-bold gradient-text">{member.name?.slice(0, 1)}</span>
-                      </div>
-                    )}
-                  </div>
-                  <h3 class="font-semibold group-hover:gradient-text transition-all duration-300">{member.name}</h3>
-                  <p class="text-sm" style="color: var(--primary);">{member.role}</p>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <!-- CTA Section -->
-      <section class="py-24 px-4 relative overflow-hidden">
-        <div class="absolute inset-0">
-          <div class="blob w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="background: var(--primary-light); opacity: 0.2;"></div>
-        </div>
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-          <h2 class="text-3xl md:text-4xl font-bold mb-6">准备好开始了吗？</h2>
-          <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">让我们一起打造您的数字未来</p>
-          <a href="/OnePage/contact" class="inline-block px-10 py-5 rounded-xl font-semibold text-white hover-lift hover-glow transition-all duration-300" style="background: var(--gradient);">
-            立即咨询
-          </a>
         </div>
       </section>
     </main>
-
-    <TeamFooter company={company} socials={config.socials} />
+    
+    <TeamFooter />
   </TeamLayout>
 )}

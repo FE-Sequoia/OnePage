@@ -1,0 +1,250 @@
+---
+// 科技蓝粒子网络背景组件
+// 流畅动画、密度适中、不影响前景可读性
+---
+
+<canvas id="particle-canvas" class="fixed inset-0 -z-10 w-full h-full"></canvas>
+
+<script is:inline>
+(function() {
+  const canvas = document.getElementById('particle-canvas');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animationId = null;
+  let isActive = true;
+  let mouse = { x: null, y: null, radius: 150 };
+  let frameCount = 0;
+  
+  // 检测触摸设备
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+  
+  // 科技蓝配色
+  const colors = {
+    primary: '0, 102, 255',      // #0066FF
+    accent: '0, 212, 255',       // #00D4FF
+    light: '147, 197, 253',      // 浅蓝
+    glow: '0, 212, 255'          // 发光色
+  };
+  
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  
+  // 创建粒子 - 密度适中
+  function createParticles() {
+    particles = [];
+    
+    // 根据屏幕尺寸调整数量，保持密度适中
+    const area = canvas.width * canvas.height;
+    const density = isTouchDevice ? 0.00008 : 0.00012; // 每像素粒子数
+    const count = Math.min(Math.floor(area * density), isTouchDevice ? 40 : 80);
+    
+    for (let i = 0; i < count; i++) {
+      const layer = Math.random();
+      let radius, speed, opacity, color;
+      
+      // 根据层次设置不同属性
+      if (layer < 0.2) {
+        // 前景层 - 较大、较快
+        radius = Math.random() * 2 + 2;
+        speed = 0.8;
+        opacity = Math.random() * 0.3 + 0.4;
+        color = colors.accent;
+      } else if (layer < 0.6) {
+        // 中景层 - 中等
+        radius = Math.random() * 1.5 + 1;
+        speed = 0.4;
+        opacity = Math.random() * 0.2 + 0.25;
+        color = colors.primary;
+      } else {
+        // 背景层 - 较小、较慢
+        radius = Math.random() * 1 + 0.5;
+        speed = 0.2;
+        opacity = Math.random() * 0.15 + 0.1;
+        color = colors.light;
+      }
+      
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * speed,
+        vy: (Math.random() - 0.5) * speed,
+        radius: radius,
+        opacity: opacity,
+        color: color,
+        layer: layer
+      });
+    }
+  }
+  
+  function drawParticles() {
+    // 深色背景 - 确保前景可读性
+    const gradient = ctx.createRadialGradient(
+      canvas.width / 2, canvas.height / 2, 0,
+      canvas.width / 2, canvas.height / 2, canvas.width
+    );
+    gradient.addColorStop(0, '#0a0a1a');
+    gradient.addColorStop(0.5, '#050510');
+    gradient.addColorStop(1, '#020205');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 绘制连接线
+    drawConnections();
+    
+    // 绘制粒子
+    particles.forEach(p => {
+      // 更新位置
+      p.x += p.vx;
+      p.y += p.vy;
+      
+      // 鼠标交互 - 轻微排斥效果
+      if (!isTouchDevice && mouse.x && mouse.y) {
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < mouse.radius) {
+          const force = (mouse.radius - distance) / mouse.radius;
+          const angle = Math.atan2(dy, dx);
+          p.vx -= Math.cos(angle) * force * 0.02;
+          p.vy -= Math.sin(angle) * force * 0.02;
+        }
+      }
+      
+      // 边界处理 - 柔和反弹
+      if (p.x < 0 || p.x > canvas.width) {
+        p.vx *= -0.9;
+        p.x = Math.max(0, Math.min(canvas.width, p.x));
+      }
+      if (p.y < 0 || p.y > canvas.height) {
+        p.vy *= -0.9;
+        p.y = Math.max(0, Math.min(canvas.height, p.y));
+      }
+      
+      // 绘制发光效果
+      const glowSize = p.radius * 3;
+      const glowGradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowSize);
+      glowGradient.addColorStop(0, `rgba(${p.color}, ${p.opacity})`);
+      glowGradient.addColorStop(0.5, `rgba(${p.color}, ${p.opacity * 0.3})`);
+      glowGradient.addColorStop(1, `rgba(${p.color}, 0)`);
+      
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, glowSize, 0, Math.PI * 2);
+      ctx.fillStyle = glowGradient;
+      ctx.fill();
+      
+      // 绘制粒子核心
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color}, ${p.opacity + 0.2})`;
+      ctx.fill();
+    });
+  }
+  
+  function drawConnections() {
+    const maxDistance = isTouchDevice ? 100 : 150;
+    const maxConnections = 3;
+    
+    for (let i = 0; i < particles.length; i++) {
+      let connections = 0;
+      
+      for (let j = i + 1; j < particles.length && connections < maxConnections; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < maxDistance) {
+          const opacity = (1 - distance / maxDistance) * 0.15;
+          
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(${colors.accent}, ${opacity})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+          
+          connections++;
+        }
+      }
+    }
+  }
+  
+  function animate() {
+    if (!isActive) return;
+    
+    frameCount++;
+    
+    // 移动端降频至30fps
+    if (isTouchDevice && frameCount % 2 !== 0) {
+      animationId = requestAnimationFrame(animate);
+      return;
+    }
+    
+    // 速度衰减，保持流畅
+    particles.forEach(p => {
+      p.vx *= 0.999;
+      p.vy *= 0.999;
+      
+      // 最小速度保证
+      const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      if (speed < 0.1) {
+        p.vx += (Math.random() - 0.5) * 0.05;
+        p.vy += (Math.random() - 0.5) * 0.05;
+      }
+    });
+    
+    drawParticles();
+    animationId = requestAnimationFrame(animate);
+  }
+  
+  // 鼠标交互
+  if (!isTouchDevice) {
+    document.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    }, { passive: true });
+    
+    document.addEventListener('mouseleave', () => {
+      mouse.x = null;
+      mouse.y = null;
+    }, { passive: true });
+  }
+  
+  // 页面可见性控制
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      isActive = false;
+      if (animationId) cancelAnimationFrame(animationId);
+    } else {
+      isActive = true;
+      animate();
+    }
+  });
+  
+  // 初始化
+  resize();
+  createParticles();
+  animate();
+  
+  // 响应式处理
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      resize();
+      createParticles();
+    }, 250);
+  }, { passive: true });
+  
+  // 清理
+  window.addEventListener('beforeunload', () => {
+    isActive = false;
+    if (animationId) cancelAnimationFrame(animationId);
+  });
+})();
+</script>
